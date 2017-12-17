@@ -11,7 +11,7 @@ module.exports = {
 		main: "./src/app.ts"
 	},
 	output: {
-		path: path.resolve(__dirname, 'dist'), // output directory
+		path: path.resolve(__dirname, 'target'), // output directory
 		filename: "[name].js" // name of the generated bundle
 	},
 	module: {

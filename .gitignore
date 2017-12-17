@@ -1,5 +1,5 @@
-target/
-dist/
+node/
 node_modules/
+target/
 npm-debug.log
 *.iml
