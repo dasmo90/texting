@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {BrowserModule} from "@angular/platform-browser";
+import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {AppComponent} from "./components/app/app.component";
 import {HeaderBarComponent} from "./components/header-bar/header-bar.component";
 
@@ -9,8 +9,8 @@ import {HeaderBarComponent} from "./components/header-bar/header-bar.component";
     bootstrap:    [AppComponent],
     declarations: [
         AppComponent,
-        HeaderBarComponent
-    ]
+        HeaderBarComponent,
+    ],
 })
 export class AppModule {}
 

@@ -50,6 +50,7 @@ module.exports = {
 	],
 	devtool: "source-map",
 	devServer: {
-		historyApiFallback: true
+		historyApiFallback: true,
+		port: 8088
 	}
 };
