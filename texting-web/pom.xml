@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>texting</artifactId>
+		<groupId>de.marmor</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>texting-web</artifactId>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<!-- Use the latest released version:
+				https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+				<version>LATEST_VERSION</version>
+				<execution>
+					<!-- optional: you don't really need execution ids, but it looks nice in your build log. -->
+					<id>install node and npm</id>
+					<goals>
+						<goal>install-node-and-npm</goal>
+					</goals>
+					<!-- optional: default phase is "generate-resources" -->
+					<phase>generate-resources</phase>
+				</execution>
+				<configuration>
+					<nodeVersion>v4.6.0</nodeVersion>
+
+					<!-- optional: with node version greater than 4.0.0 will use npm provided by node distribution -->
+					<npmVersion>2.15.9</npmVersion>
+
+					<!-- optional: where to download node and npm from. Defaults to https://nodejs.org/dist/ -->
+					<downloadRoot>http://myproxy.example.org/nodejs/</downloadRoot>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
