@@ -5,7 +5,7 @@ and navigate to your workspace (some directory on your PC).
 
 Execute
 
-`git clone https://github.com/dasmo90/texting`
+`git clone https://github.com/dasmo90/texting.git`
 
 to copy the code to your local PC. Then change into the project's directory running
 
