@@ -23,10 +23,14 @@ _Hint: The first execution could take some minutes._
 
 To start the server run:
 
-`java -jar texting-server/target/texting-server-1.0-SNAPSHOT.jar`
+`mvn spring-boot:run`
 
 Now, the server is available on <a href="http://localhost:8080">http://localhost:8080</a>.
 
 ## Starting the client
 
-To start the client just
+To start the client run:
+
+`mvn clean package -Pdev-server`
+
+Now, the client is available on <a href="http://localhost:8088">http://localhost:8088</a>.
