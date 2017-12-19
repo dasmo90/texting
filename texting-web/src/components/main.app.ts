@@ -3,10 +3,10 @@ import {Component, Input} from "@angular/core";
 @Component({
     selector: "texting-app",
     styles: [
-        require("./app.component.scss"),
+        require("./main.app.scss"),
     ],
-    template: require("./app.component.html"),
+    template: require("./main.app.html"),
 })
-export class AppComponent {
+export class MainApp {
 
 }
