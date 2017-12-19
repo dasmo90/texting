@@ -4,17 +4,18 @@ import {Routes, RouterModule} from '@angular/router';
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {MainApp} from "./components/main.app";
 import {HeaderComponent} from "./components/header/header.component";
-import {NamePage} from "./components/pages/name/name.page";
+import {Selectpage} from "./components/pages/select/select.page";
 import {StartPage} from "./components/pages/start/start.page";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const routes: Routes = [
     {
-        path: '',
-        component: NamePage
+        path: "",
+        component: StartPage,
     },
     {
-        path: 'start',
-        component: HeaderComponent
+        path: "select",
+        component: Selectpage,
     }
 ];
 
@@ -22,13 +23,15 @@ const routes: Routes = [
     imports: [
         BrowserModule,
         RouterModule.forRoot(routes),
+        FormsModule,
+        ReactiveFormsModule,
     ],
     bootstrap: [MainApp],
     declarations: [
         MainApp,
         HeaderComponent,
-        NamePage,
-        StartPage
+        Selectpage,
+        StartPage,
     ],
 })
 export class AppModule {
