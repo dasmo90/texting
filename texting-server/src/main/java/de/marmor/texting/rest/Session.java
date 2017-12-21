@@ -1,5 +1,21 @@
 package de.marmor.texting.rest;
 
+import de.marmor.texting.http.StringResponseEntity;
+import de.marmor.texting.model.Game;
+import de.marmor.texting.model.GameSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,26 +24,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import de.marmor.texting.model.Game;
-import de.marmor.texting.model.GameSettings;
-
 /**
  * Created by mbuerger on 16.12.2017.
  */
 @RestController
+@CrossOrigin(origins = "*")
 public class Session {
 
 	private static final String COOKIE_COMPANION_ID = "TEXTING-COOKIE-COMPANION-ID";
@@ -38,8 +39,12 @@ public class Session {
 	private Map<String, String> idleCompanions = new HashMap<>();
 	private Map<String, Game> games = new HashMap<String, Game>();
 
+	private final HttpServletRequest request;
+
 	@Autowired
-	private HttpServletRequest request;
+	public Session(HttpServletRequest request) {
+		this.request = request;
+	}
 
 	/**
 	 * one needs to be logged in to make or enter a game
@@ -48,11 +53,11 @@ public class Session {
 	 *            name of the player
 	 * @return player id
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(@RequestParam("name") String name) {
+	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json")
+	public StringResponseEntity login(@RequestParam("name") String name) {
 		String newCompanionId = UUID.randomUUID().toString();
 		idleCompanions.put(newCompanionId, name);
-		return newCompanionId;
+		return new StringResponseEntity(newCompanionId, HttpStatus.OK);
 	}
 
 	/**
