@@ -15,6 +15,8 @@ public class Game {
 	private String shownWords = "";
 	private int whoseTurn = 0;
 	
+	//private List<StoryPiece> story;
+	
 	public Game(GameSettings settings) {
 		this.settings = settings;
 	}
@@ -74,7 +76,8 @@ public class Game {
 				whoseTurn = (whoseTurn+1)%numberOfPlayers;
 				return true;
 			}
-			String[] words = storyPiece.split("\\s");
+			
+			String[] words = storyPiece.split("\\s+");
 			int numberOfWords = words.length;
 			
 			if(numberOfWords < settings.getMinWords() || numberOfWords > settings.getMaxWords()) {

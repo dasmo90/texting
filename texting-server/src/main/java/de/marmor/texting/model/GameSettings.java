@@ -14,7 +14,6 @@ public class GameSettings {
 	private int numberOfWrittenWordsMin;
 	private int numberOfWrittenWordsMax;
 	private Map<String, String> players = new HashMap<String,String>();
-	private int playerCounter;
 	private boolean empty;
 	
 	public GameSettings(String name, String companionId, int show, int wrMin, int wrMax) {
@@ -33,12 +32,11 @@ public class GameSettings {
 		numberOfWrittenWordsMax = wrMax;
 		players.put(companionId, name);
 		ownerId = companionId;
-		playerCounter = 1;
 		empty = false;
 	}
 	
 	public String getName() {
-		return name+"'s game";
+		return name;
 	}
 
 	public void setName(String name) {
@@ -68,7 +66,6 @@ public class GameSettings {
 	public void addPlayer(String newPlayerId, String newPlayerName) {
 		if(!players.containsKey(newPlayerId)) {
 			players.put(newPlayerId,newPlayerName);
-			playerCounter++;
 		}
 	}
 	
