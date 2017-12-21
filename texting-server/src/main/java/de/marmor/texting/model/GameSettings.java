@@ -10,26 +10,33 @@ public class GameSettings {
 
 	private String name;
 	private String ownerId;
-	private int numberOfShownWords;
-	private int numberOfWrittenWordsMin;
-	private int numberOfWrittenWordsMax;
+	private int nofShownLetters;
+	private int nofMinLetters;
+	private int nofMaxLetters;
+	private int nofRounds;
 	private Map<String, String> players = new HashMap<String,String>();
 	private boolean empty;
 	
-	public GameSettings(String name, String companionId, int show, int wrMin, int wrMax) {
+	public GameSettings(String name, String companionId, int show, int wrMin, int wrMax, int rounds) {
+		// default settings if parameters are invalid
 		if(show < 0) {
-			show = 1;
+			show = 50;
 		}
 		if(wrMin < show) {
 			wrMin = show;
 		}
 		if(wrMax < wrMin) {
-			wrMax = wrMin+3;
+			wrMax = wrMin+10;
 		}
+		if(rounds <= 0) {
+			rounds = 1;
+		}
+		
 		this.name = name+"'s game";
-		numberOfShownWords = show;
-		numberOfWrittenWordsMin = wrMin;
-		numberOfWrittenWordsMax = wrMax;
+		nofShownLetters = show;
+		nofMinLetters = wrMin;
+		nofMaxLetters = wrMax;
+		nofRounds = rounds;
 		players.put(companionId, name);
 		ownerId = companionId;
 		empty = false;
@@ -51,16 +58,20 @@ public class GameSettings {
 		return players;
 	}
 	
-	public int getMinWords() {
-		return numberOfWrittenWordsMin;
+	public int getMinLetters() {
+		return nofMinLetters;
 	}
 	
-	public int getMaxWords() {
-		return numberOfWrittenWordsMax;
+	public int getMaxLetters() {
+		return nofMaxLetters;
 	}
 	
-	public int getShownWords() {
-		return numberOfShownWords;
+	public int getShownLetters() {
+		return nofShownLetters;
+	}
+	
+	public int getRounds() {
+		return nofRounds;
 	}
 	
 	public void addPlayer(String newPlayerId, String newPlayerName) {

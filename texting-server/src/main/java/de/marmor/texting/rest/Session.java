@@ -71,18 +71,19 @@ public class Session {
 	 * @return
 	 */
 	@RequestMapping(value = "/game/new", method = RequestMethod.GET)
-	public ResponseEntity<String> newGame(@RequestParam("shownWords") int shownWords,
-			@RequestParam("minWords") int minWords, @RequestParam("maxWords") int maxWords) {
+	public StringResponseEntity newGame(@RequestParam("shownWords") int shownWords,
+			@RequestParam("minWords") int minWords, @RequestParam("maxWords") int maxWords,
+			@RequestParam("rounds") int rounds) {
 		String companionId = getCompanionId();
 		if (idleCompanions.containsKey(companionId)) {
 			String newGameId = UUID.randomUUID().toString();
 			GameSettings newGameSettings = new GameSettings(idleCompanions.get(companionId), companionId, shownWords,
-					minWords, maxWords);
+					minWords, maxWords, rounds);
 			games.put(newGameId, new Game(newGameSettings));
 			idleCompanions.remove(companionId);
-			return new ResponseEntity<>(newGameId, HttpStatus.OK);
+			return new StringResponseEntity(newGameId, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("", HttpStatus.FORBIDDEN);
+			return new StringResponseEntity("", HttpStatus.FORBIDDEN);
 		}
 
 	}
@@ -170,19 +171,22 @@ public class Session {
 	}
 
 	/**
-	 * only the game owner can start his game once started, nobody can enter the
+	 * only the game owner can start his game, once started, nobody can enter the
 	 * game any longer
 	 */
 	@RequestMapping(value = "/game/start", method = RequestMethod.GET)
-	public void startGame() {
+	public boolean startGame() {
 		String gameId = getGameId();
 		String ownerId = getCompanionId();
 		if (games.containsKey(gameId)) {
 			if (games.get(gameId).getSettings().getOwnerId().equals(ownerId)
 					&& !games.get(gameId).getSettings().isEmpty()) {
 				games.get(gameId).start();
+				return true;
 			}
+			return false;
 		}
+		return false;
 	}
 	
 
