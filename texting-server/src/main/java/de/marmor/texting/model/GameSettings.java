@@ -100,6 +100,10 @@ public class GameSettings {
 	public boolean isEmpty() {
 		return empty;
 	}
+
+	public void forgetOwner() {
+		ownerId = "";
+	}
 	
 
 }

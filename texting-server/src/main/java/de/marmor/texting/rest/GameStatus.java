@@ -2,23 +2,64 @@ package de.marmor.texting.rest;
 
 import java.util.List;
 
+import de.marmor.texting.model.Game;
 import de.marmor.texting.model.StoryPiece;
 
 public class GameStatus {
 
 	private int status;
-
 	private boolean yourTurn;
-	private List<String> shownWords;
 	private String whosTurnName;
-	private List<String> players;
+	private String shownLetters;
+	private List<String> playerNames;
 	private int currentRound;
 	private List<StoryPiece> story;
+	private int nofShownLetters;
+	private int minLetters;
+	private int maxLetters;
+	private int nofRounds;
 
-	private int shownWordsCount;
-	private int minWords;
-	private int maxWords;
-
+	public GameStatus() {
+		
+	}
+	
+	public GameStatus(Game game, String currentPlayerId) {
+		nofShownLetters = game.getSettings().getShownLetters();
+		minLetters = game.getSettings().getMinLetters();
+		maxLetters = game.getSettings().getMaxLetters();
+		nofRounds = game.getSettings().getRounds();
+		status = game.getStatus();
+		
+		if(status == 0) {
+			yourTurn = false;
+			whosTurnName = null;
+			shownLetters = null;
+			currentRound = 0;
+			story = null;
+			for(String key : game.getSettings().getPlayers().keySet()) {
+				playerNames.add(game.getSettings().getPlayers().get(key));
+			}	
+		} else if(status == 1) {
+			yourTurn = game.whoseTurnId() == currentPlayerId;
+			whosTurnName = game.getSettings().getPlayers().get(game.whoseTurnId());
+			shownLetters = game.getShownLetters();
+			currentRound = game.getCurrentRound();
+			story = null;
+			for(int i = 0; i < game.getPlayersInOrder().size(); i++) {
+				playerNames.add(game.getSettings().getPlayers().get(game.getPlayersInOrder().get(i)));
+			}
+		} else {
+			yourTurn = false;
+			whosTurnName = null;
+			shownLetters = null;
+			currentRound = game.getSettings().getRounds()+1;
+			story = game.getStoryAsList();
+			for(int i = 0; i < game.getPlayersInOrder().size(); i++) {
+				playerNames.add(game.getSettings().getPlayers().get(game.getPlayersInOrder().get(i)));
+			}
+		}
+	}
+	
 	public int getStatus() {
 		return status;
 	}
@@ -35,12 +76,12 @@ public class GameStatus {
 		this.yourTurn = yourTurn;
 	}
 
-	public List<String> getShownWords() {
-		return shownWords;
+	public String getShownWords() {
+		return shownLetters;
 	}
 
-	public void setShownWords(List<String> shownWords) {
-		this.shownWords = shownWords;
+	public void setShownWords(String shownWords) {
+		this.shownLetters = shownWords;
 	}
 
 	public String getWhosTurnName() {
@@ -52,35 +93,35 @@ public class GameStatus {
 	}
 
 	public List<String> getPlayers() {
-		return players;
+		return playerNames;
 	}
 
-	public void setPlayers(List<String> players) {
-		this.players = players;
+	public void setPlayers(List<String> playerNames) {
+		this.playerNames = playerNames;
 	}
 
 	public int getShownWordsCount() {
-		return shownWordsCount;
+		return nofShownLetters;
 	}
 
 	public void setShownWordsCount(int shownWordsCount) {
-		this.shownWordsCount = shownWordsCount;
+		this.nofShownLetters = shownWordsCount;
 	}
 
 	public int getMinWords() {
-		return minWords;
+		return minLetters;
 	}
 
 	public void setMinWords(int minWords) {
-		this.minWords = minWords;
+		this.minLetters = minWords;
 	}
 
 	public int getMaxWords() {
-		return maxWords;
+		return maxLetters;
 	}
 
 	public void setMaxWords(int maxWords) {
-		this.maxWords = maxWords;
+		this.maxLetters = maxWords;
 	}
 
 	public int getCurrentRound() {
@@ -97,5 +138,13 @@ public class GameStatus {
 
 	public void setStory(List<StoryPiece> story) {
 		this.story = story;
+	}
+
+	public int getRounds() {
+		return nofRounds;
+	}
+
+	public void setRounds(int nofRounds) {
+		this.nofRounds = nofRounds;
 	}
 }

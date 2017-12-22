@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -68,7 +69,8 @@ public class Session {
 	 * @param shownWords
 	 * @param minWords
 	 * @param maxWords
-	 * @return
+	 * @param rounds
+	 * @return game id
 	 */
 	@RequestMapping(value = "/game/new", method = RequestMethod.GET)
 	public StringResponseEntity newGame(@RequestParam("shownWords") int shownWords,
@@ -109,10 +111,10 @@ public class Session {
 	}
 
 	/**
-	 * one can only participate in one game at a time to participate it is necessary
-	 * to be logged in
+	 * one can only participate in one game at a time, to participate it is necessary
+	 * to be logged in, when the game has already started it's not possible to enter anymore
 	 * 
-	 * @return
+	 * @return true if companion exists and is idle and game exists, else false
 	 */
 	@RequestMapping(value = "/game/enter", method = RequestMethod.GET)
 	public boolean enterGame() {
@@ -129,20 +131,29 @@ public class Session {
 	}
 
 	/**
-	 * if one leaves a game it is possible to make or enter a new game again the
-	 * game owner can't leave the game, he has to shut it
+	 * if one leaves a game it is possible to make or enter a new game again, the
+	 * game owner can't leave the game if it hasn't started yet, he has to shut it then
 	 * 
-	 * @return
+	 * @return true if the player was in the game and has left now, else false
 	 */
 	@RequestMapping(value = "/game/leave", method = RequestMethod.GET)
 	public boolean leaveGame() {
 		String companionId = getCompanionId();
 		String gameId = getGameId();
 		if (games.containsKey(gameId)) {
-			if (games.get(gameId).getSettings().getPlayers().containsKey(companionId)
+			if (games.get(gameId).getStatus() == 0 
+					&& games.get(gameId).getSettings().getPlayers().containsKey(companionId)
 					&& !games.get(gameId).getSettings().getOwnerId().equals(companionId)) {
 				Map<String, String> returnedCompanions = games.get(gameId).getSettings().removePlayer(companionId);
 				idleCompanions.putAll(returnedCompanions);
+				return true;
+			} else if(games.get(gameId).getStatus() > 0) {
+				games.get(gameId).removeFromRunningGame(companionId);
+				Map<String, String> returnedCompanions = games.get(gameId).getSettings().removePlayer(companionId);
+				idleCompanions.putAll(returnedCompanions);
+				if(games.get(gameId).getSettings().isEmpty()) {
+					games.remove(gameId);
+				}
 				return true;
 			}
 		}
@@ -150,17 +161,18 @@ public class Session {
 	}
 
 	/**
-	 * only the game owner can shut his game all participants will be removed from
-	 * the game and can participate in a new game
+	 * only the game owner can shut his game, it also can only be shut, if it hasn't started yet
+	 * all participants will be removed from the game and can participate in a new game
 	 * 
-	 * @return
+	 * @return true if game was shut successfully, else false
 	 */
 	@RequestMapping(value = "/game/shut", method = RequestMethod.GET)
 	public boolean shutGame() {
 		String ownerId = getCompanionId();
 		String gameId = getGameId();
 		if (games.containsKey(gameId)) {
-			if (games.get(gameId).getSettings().getOwnerId().equals(ownerId)) {
+			if (games.get(gameId).getSettings().getOwnerId().equals(ownerId)
+					&& games.get(gameId).getStatus() == 0) {
 				Map<String, String> returnedCompanions = games.get(gameId).getSettings().removePlayer(ownerId);
 				games.remove(gameId);
 				idleCompanions.putAll(returnedCompanions);
@@ -173,6 +185,8 @@ public class Session {
 	/**
 	 * only the game owner can start his game, once started, nobody can enter the
 	 * game any longer
+	 * 
+	 * @return true if game started successfully, else false
 	 */
 	@RequestMapping(value = "/game/start", method = RequestMethod.GET)
 	public boolean startGame() {
@@ -180,7 +194,7 @@ public class Session {
 		String ownerId = getCompanionId();
 		if (games.containsKey(gameId)) {
 			if (games.get(gameId).getSettings().getOwnerId().equals(ownerId)
-					&& !games.get(gameId).getSettings().isEmpty()) {
+					&& games.get(gameId).getStatus() == 0) {
 				games.get(gameId).start();
 				return true;
 			}
@@ -190,19 +204,56 @@ public class Session {
 	}
 	
 
+	/**
+	 * A story piece can only be committed, when the game is in status 1 (started and not ended yet)
+	 * Only the player who's turn it is can commit a story piece
+	 * 
+	 * @param storyPiece
+	 * @return true if commitment was successful, else false
+	 */
 	@RequestMapping(value = "/game/commit/storypiece", method = RequestMethod.GET)
-	public boolean commitStoryPiece() {
-		return false;
+	public boolean commitStoryPiece(@RequestParam("storypiece") String storyPiece) {
+		String companionId = getCompanionId();
+		String gameId = getGameId();
+		return games.get(gameId).commitStoryPiece(companionId, storyPiece);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/games/unstarted/poll", method = RequestMethod.GET)
 	public List<GameTeaser> games() {
-		return Collections.singletonList(new GameTeaser());
+		List<GameTeaser> gameTeasers = new LinkedList<>();
+		if(games.size() > 0) {
+			for(String key : games.keySet()) {
+				gameTeasers.add(new GameTeaser(key, games.get(key).getSettings().getName(),
+						games.get(key).getSettings().getPlayers().size()));
+			}
+			return gameTeasers;
+		} else {
+			return Collections.emptyList();
+		}
+		
+		
 	}
 	
+	/**
+	 * get full information about a particular game
+	 * if game doesn't exist or the requesting companion is not in the game return null
+	 * @return
+	 */
 	@RequestMapping(value = "/game/status/poll", method = RequestMethod.GET)
 	public GameStatus gameStatus() {
-		return new GameStatus();
+		String companionId = getCompanionId();
+		String gameId = getGameId();
+		if(games.containsKey(gameId)) {
+			if(games.get(gameId).getSettings().getPlayers().containsKey(companionId)) {
+				return new GameStatus(games.get(gameId),companionId);
+			}
+		}
+		return null;
+		
 	}
 
 }
