@@ -12,14 +12,15 @@ export class CookieUtil {
         const name = key + "=";
         const decodedCookie = decodeURIComponent(document.cookie);
         const ca = decodedCookie.split(";");
+        let returnValue = "";
         decodedCookie.split(";").forEach((cookiePart) => {
             while (cookiePart.charAt(0) === " ") {
                 cookiePart = cookiePart.substring(1);
             }
-            if (cookiePart.indexOf(name) === 0) {
-                return cookiePart.substring(name.length, cookiePart.length);
+            if (cookiePart.indexOf(key) === 0) {
+                returnValue = cookiePart.substring(name.length, cookiePart.length);
             }
         });
-        return "";
+        return returnValue;
     }
 }

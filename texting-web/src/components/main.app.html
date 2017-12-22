@@ -2,7 +2,7 @@
     <header-component title="Texting"></header-component>
 
     <ng-container [ngSwitch]="status">
-        <start-page *ngSwitchCase="0"></start-page>
+        <start-page *ngSwitchCase="0" (onLogin)="ngOnInit()"></start-page>
         <select-page *ngSwitchCase="1"></select-page>
     </ng-container>
 </div>

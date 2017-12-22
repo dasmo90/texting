@@ -5,7 +5,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {HeaderComponent} from "./components/header/header.component";
 import {MainApp} from "./components/main.app";
-import {Selectpage} from "./components/pages/select/select.page";
+import {SelectPage} from "./components/pages/select/select.page";
 import {StartPage} from "./components/pages/start/start.page";
 
 @NgModule({
@@ -19,7 +19,7 @@ import {StartPage} from "./components/pages/start/start.page";
     declarations: [
         MainApp,
         HeaderComponent,
-        Selectpage,
+        SelectPage,
         StartPage,
     ],
 })

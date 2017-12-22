@@ -17,9 +17,10 @@ export class MainApp implements OnInit {
 
     public ngOnInit(): void {
         const userId = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-ID");
+        console.log(userId);
         if (userId) {
             this.userName = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-NAME");
-            this.userId = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-ID");
+            this.userId = userId;
             this.status = 1;
         }
     }

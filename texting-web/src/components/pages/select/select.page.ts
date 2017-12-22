@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {CookieUtil} from "../../../utils/cookie.util";
 
 @Component({
@@ -8,11 +8,11 @@ import {CookieUtil} from "../../../utils/cookie.util";
     ],
     template: require("./select.page.html"),
 })
-export class Selectpage {
+export class SelectPage implements OnInit {
 
     private name: string;
 
-    constructor() {
+    public ngOnInit(): void {
         this.name = CookieUtil.getCookie("name");
     }
 }
