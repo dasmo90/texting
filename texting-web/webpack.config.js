@@ -44,6 +44,10 @@ module.exports = {
 			template: "src/index.html",
 			inject: "body"
 		}),
+		new webpack.ContextReplacementPlugin(
+			/\@angular(\\|\/)core(\\|\/)esm5/,
+			path.join(__dirname, './client')
+		),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'polyfills'
 		})

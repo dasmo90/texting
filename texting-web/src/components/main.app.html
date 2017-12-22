@@ -1,6 +1,8 @@
 <div class="c-app">
     <header-component title="Texting"></header-component>
 
-    <router-outlet></router-outlet>
-
+    <ng-container [ngSwitch]="status">
+        <start-page *ngSwitchCase="0"></start-page>
+        <select-page *ngSwitchCase="1"></select-page>
+    </ng-container>
 </div>

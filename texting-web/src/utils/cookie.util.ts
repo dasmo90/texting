@@ -1,22 +1,25 @@
 export class CookieUtil {
 
     public static setCookie(key: string, value: string) {
-        document.cookie = key + "=" + value;
+        document.cookie = key + "=" + value + "; ;path=/;";
+    }
+
+    public static deleteCookie(key: string) {
+        document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
 
     public static getCookie(key: string): string {
-        let name = key + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(";");
-        for(let i = 0; i <ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
+        const name = key + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(";");
+        decodedCookie.split(";").forEach((cookiePart) => {
+            while (cookiePart.charAt(0) === " ") {
+                cookiePart = cookiePart.substring(1);
             }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
+            if (cookiePart.indexOf(name) === 0) {
+                return cookiePart.substring(name.length, cookiePart.length);
             }
-        }
+        });
         return "";
     }
 }

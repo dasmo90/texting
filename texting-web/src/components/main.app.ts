@@ -1,4 +1,5 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
+import {CookieUtil} from "../utils/cookie.util";
 
 @Component({
     selector: "texting-app",
@@ -7,6 +8,19 @@ import {Component, Input} from "@angular/core";
     ],
     template: require("./main.app.html"),
 })
-export class MainApp {
+export class MainApp implements OnInit {
 
+    private userName: string;
+    private userId: string;
+
+    private status: number = 0;
+
+    public ngOnInit(): void {
+        const userId = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-ID");
+        if (userId) {
+            this.userName = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-NAME");
+            this.userId = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-ID");
+            this.status = 1;
+        }
+    }
 }

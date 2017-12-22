@@ -1,30 +1,19 @@
+import {HttpClientModule} from "@angular/common/http";
 import {NgModule} from "@angular/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {Routes, RouterModule} from '@angular/router';
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {MainApp} from "./components/main.app";
 import {HeaderComponent} from "./components/header/header.component";
+import {MainApp} from "./components/main.app";
 import {Selectpage} from "./components/pages/select/select.page";
 import {StartPage} from "./components/pages/start/start.page";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-
-const routes: Routes = [
-    {
-        path: "",
-        component: StartPage,
-    },
-    {
-        path: "select",
-        component: Selectpage,
-    }
-];
 
 @NgModule({
     imports: [
         BrowserModule,
-        RouterModule.forRoot(routes),
         FormsModule,
         ReactiveFormsModule,
+        HttpClientModule,
     ],
     bootstrap: [MainApp],
     declarations: [

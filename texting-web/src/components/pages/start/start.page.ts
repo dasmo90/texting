@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Component, EventEmitter, OnInit, Output} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CookieUtil} from "../../../utils/cookie.util";
 
 @Component({
@@ -12,27 +12,33 @@ import {CookieUtil} from "../../../utils/cookie.util";
 })
 export class StartPage implements OnInit {
 
-    id: string;
-    form: FormGroup;
+    private form: FormGroup;
 
-    constructor(private router: Router, formBuilder: FormBuilder) {
+    @Output()
+    private onLogin: EventEmitter<void>;
+
+    constructor(formBuilder: FormBuilder, private httpClient: HttpClient) {
         this.form = formBuilder.group({
             name: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(15)])],
-        })
+        });
+        this.onLogin = new EventEmitter<void>();
     }
 
-    ngOnInit(): void {
-        let name = CookieUtil.getCookie("name");
-        this.id = CookieUtil.getCookie("userId");
-        if (name) {
-            this.form.setValue({name: name});
-        }
+    public ngOnInit(): void {
+        // no onInit action
     }
 
-    next(value: any): void {
+    private next(value: any): void {
         if (this.form.valid) {
-            CookieUtil.setCookie("name", value.name);
-            this.router.navigate(["select"]);
+            this.httpClient.get("http://localhost:8080/login", {
+                params: new HttpParams().set("name", value.name),
+            }).subscribe((result) => {
+                CookieUtil.setCookie("TEXTING-COOKIE-COMPANION-NAME", value.name);
+                CookieUtil.setCookie("TEXTING-COOKIE-COMPANION-ID", result.toString());
+                this.onLogin.emit();
+            }, (error) => {
+                console.log(error);
+            });
         }
     }
 }
