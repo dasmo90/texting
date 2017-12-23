@@ -38,7 +38,7 @@ public class Game {
 	
 	public String getShownLetters() {
 		if(status == 1) {
-			LOG.info("Zeige: |"+shownLetters+"|");
+			LOG.info("Show: |"+shownLetters+"|");
 			return shownLetters;
 		}
 		return null;
@@ -46,7 +46,7 @@ public class Game {
 	
 	public String getStory() {
 		if(status == 2) {
-			LOG.info("Geschichte: |"+story+"|");
+			LOG.info("Story: |"+story+"|");
 			return story;
 
 		}
@@ -65,10 +65,7 @@ public class Game {
 	}
 	
 	public GameSettings getSettings() {
-		if(status == 0) {
-			return settings;
-		}
-		return null;
+		return settings;
 	}
 	
 	public List<String> getPlayersInOrder() {
@@ -118,7 +115,7 @@ public class Game {
 			}
 			
 			int nofLetters = storyPiece.length();
-			
+			LOG.info(String.valueOf(nofLetters));
 			if(nofLetters < settings.getMinLetters() || nofLetters > settings.getMaxLetters()) {
 				LOG.info("Wrong number of letters.");
 				return false;
@@ -126,6 +123,7 @@ public class Game {
 			else {
 				story = story + storyPiece + " ";
 				storyAsList.add(new StoryPiece(playerId, settings.getPlayers().get(playerId), storyPiece));
+				LOG.info("Story piece added.");
 				char[] showi = new char[settings.getShownLetters()];
 				storyPiece.getChars(nofLetters-settings.getShownLetters(), nofLetters, showi, 0);
 				shownLetters = new String(showi);
@@ -139,7 +137,6 @@ public class Game {
 						LOG.info("Status = 2");
 					}
 				}
-				LOG.info("Story piece added.");
 				return true;
 			}
 		}

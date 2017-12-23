@@ -1,19 +1,24 @@
 package de.marmor.texting.rest;
 
+import java.util.LinkedList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.marmor.texting.model.Game;
 import de.marmor.texting.model.StoryPiece;
 
 public class GameStatus {
 
+	private static final Logger LOG = LoggerFactory.getLogger(GameStatus.class);
 	private int status;
 	private boolean yourTurn;
 	private String whosTurnName;
 	private String shownLetters;
-	private List<String> playerNames;
+	private List<String> playerNames = new LinkedList<>();
 	private int currentRound;
-	private List<StoryPiece> story;
+	private List<StoryPiece> story = new LinkedList<>();
 	private int nofShownLetters;
 	private int minLetters;
 	private int maxLetters;
@@ -36,7 +41,9 @@ public class GameStatus {
 			shownLetters = null;
 			currentRound = 0;
 			story = null;
+			LOG.info(String.valueOf(game.getSettings().getPlayers().keySet().size()));
 			for(String key : game.getSettings().getPlayers().keySet()) {
+				LOG.info(key);
 				playerNames.add(game.getSettings().getPlayers().get(key));
 			}	
 		} else if(status == 1) {
