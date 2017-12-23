@@ -150,8 +150,7 @@ public class Session {
 				idleCompanions.putAll(returnedCompanions);
 				return true;
 			} else if (games.get(gameId).getStatus() > 0) {
-				games.get(gameId).removeFromRunningGame(companionId);
-				Map<String, String> returnedCompanions = games.get(gameId).getSettings().removePlayer(companionId);
+				Map<String, String> returnedCompanions = games.get(gameId).removeFromRunningGame(companionId);
 				idleCompanions.putAll(returnedCompanions);
 				if (games.get(gameId).getSettings().isEmpty()) {
 					games.remove(gameId);

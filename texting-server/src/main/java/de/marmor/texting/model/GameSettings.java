@@ -6,7 +6,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.marmor.texting.rest.Session;
 
 /**
  * Created by mbuerger on 18.12.2017.
@@ -89,17 +88,21 @@ public class GameSettings {
 	public Map<String,String> removePlayer(String leavingPlayerId) {
 		Map<String,String> playersThatLeft = new HashMap<String,String>();
 		if(players.containsKey(leavingPlayerId)) {
+			LOG.info("Player found.");
 			if(leavingPlayerId != ownerId) {
 				playersThatLeft.put(leavingPlayerId, players.get(leavingPlayerId));
 			} else {
-				playersThatLeft = players;
+				LOG.info("Owner leaves");
+				playersThatLeft.putAll(players);
 				empty = true;
 			}
 			for(String key : playersThatLeft.keySet()) {
 				players.remove(key);
 			}
+			LOG.info("Number of leaving players: "+String.valueOf(playersThatLeft.size()));
 			return playersThatLeft;
 		}
+		LOG.info("Nobody left the game.");
 		return null;
 	}
 	
