@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {CookieUtil} from "../utils/cookie.util";
+import {GameService} from "../service/game.service";
+import {Player} from "../model/player.model";
 
 @Component({
     selector: "texting-app",
@@ -10,18 +11,23 @@ import {CookieUtil} from "../utils/cookie.util";
 })
 export class MainApp implements OnInit {
 
-    private userName: string;
-    private userId: string;
-
     private status: number = 0;
 
+    constructor(private gameService: GameService) {
+        // no action
+    }
+
     public ngOnInit(): void {
-        const userId = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-ID");
-        console.log(userId);
-        if (userId) {
-            this.userName = CookieUtil.getCookie("TEXTING-COOKIE-COMPANION-NAME");
-            this.userId = userId;
-            this.status = 1;
+        const player = this.gameService.getCurrentPlayer();
+        if (player === null) {
+            this.status = 0;
+        } else {
+            const gameId = this.gameService.getCurrentGameId();
+            if (gameId === null) {
+                this.status = 1;
+            } else {
+                this.status = 2;
+            }
         }
     }
 }

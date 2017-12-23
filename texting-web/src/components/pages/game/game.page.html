@@ -1,0 +1,5 @@
+<div *ngIf="gameStatus" [ngSwitch]="gameStatus.status" class="p-game">
+    <div *ngSwitchCase="0">0</div>
+    <div *ngSwitchCase="1">1</div>
+    <div *ngSwitchCase="2">2</div>
+</div>

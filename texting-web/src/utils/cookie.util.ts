@@ -17,7 +17,7 @@ export class CookieUtil {
             while (cookiePart.charAt(0) === " ") {
                 cookiePart = cookiePart.substring(1);
             }
-            if (cookiePart.indexOf(key) === 0) {
+            if (cookiePart.indexOf(name) === 0) {
                 returnValue = cookiePart.substring(name.length, cookiePart.length);
             }
         });
