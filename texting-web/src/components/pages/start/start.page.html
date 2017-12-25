@@ -2,7 +2,7 @@
     <form (ngSubmit)="next(form.value)">
         <div><label for="name">Enter your name:</label></div>
         <div><input id="name" type="text" [formControl]="form.controls['name']"></div>
-        <div *ngIf="!form.controls['name'].valid && form.controls['name'].touched">Your name must have between 5 and 12 characters.</div>
+        <div *ngIf="!form.controls['name'].valid && form.controls['name'].touched">Your name is mandatory and should not exceed {{nameMaxLength}} characters.</div>
         <button type="submit">Next</button>
     </form>
 </div>

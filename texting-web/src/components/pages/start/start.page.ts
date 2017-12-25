@@ -13,6 +13,8 @@ import {Player} from "../../../model/player.model";
 })
 export class StartPage implements OnInit {
 
+    private nameMaxLength: number = 15;
+
     private form: FormGroup;
 
     @Output()
@@ -20,7 +22,7 @@ export class StartPage implements OnInit {
 
     constructor(formBuilder: FormBuilder, private httpClient: HttpClient, private gameService: GameService) {
         this.form = formBuilder.group({
-            name: [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(15)])],
+            name: [null, Validators.compose([Validators.required, Validators.maxLength(this.nameMaxLength)])],
         });
         this.onLogin = new EventEmitter<Player>();
     }

@@ -4,6 +4,6 @@
     <ng-container [ngSwitch]="status">
         <start-page *ngSwitchCase="0" (onLogin)="ngOnInit()"></start-page>
         <select-page *ngSwitchCase="1" (onLogout)="ngOnInit()" (onGameSelected)="ngOnInit()"></select-page>
-        <game-page *ngSwitchCase="2"></game-page>
+        <game-page *ngSwitchCase="2" (onLogout)="ngOnInit()"></game-page>
     </ng-container>
 </div>

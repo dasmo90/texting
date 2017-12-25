@@ -1,0 +1,19 @@
+<div class="c-gameRunning">
+    <div *ngIf="gameStatus.yourTurn">
+        <form (ngSubmit)="commit(form.value)">
+            <div>
+                <label for="textField">Your Text:</label>
+            </div>
+            <div>
+                <textarea id="textField" [formControl]="form.controls['text']"></textarea>
+            </div>
+            <div *ngIf="!form.controls['text'].valid && form.controls['text'].touched">
+                Your text should be between {{gameStatus.minLetters}} and {{gameStatus.maxLetters}} characters.
+            </div>
+            <button type="submit">Commit</button>
+        </form>
+    </div>
+    <div *ngIf="!gameStatus.yourTurn">
+        It's {{gameStatus.whosTurnName}} turn.
+    </div>
+</div>

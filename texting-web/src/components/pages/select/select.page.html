@@ -2,11 +2,11 @@
     Hello, {{player.getName()}}!
     <div>Enter a game:</div>
     <ul>
-        <li *ngFor="let game of games">
+        <li *ngFor="let game of games" (click)="enterGame(game.id)">
             {{game.name}}
         </li>
         <li *ngIf="games.length === 0">No games found.</li>
     </ul>
-    <div (click)="newGame()">New game</div>
-    <div (click)="logout()">Logout</div>
+    <button (click)="newGame()">New game</button>
+    <button (click)="logout()">Logout</button>
 </div>

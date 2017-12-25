@@ -5,8 +5,10 @@ import {CookieUtil} from "../utils/cookie.util";
 @Injectable()
 export class GameService {
 
+    private myGameId: string;
+
     constructor() {
-        console.log("blablabla");
+        // no action
     }
 
     public login(player: Player) {
@@ -31,7 +33,16 @@ export class GameService {
     }
 
     public newGame(gameId: string): void {
+        CookieUtil.setCookie("TEXTING-COOKIE-MY-GAME-ID", gameId);
         CookieUtil.setCookie("TEXTING-COOKIE-GAME-ID", gameId);
+    }
+
+    /**
+     * @deprecated
+     * @returns {boolean}
+     */
+    public isMyGame(): boolean {
+        return CookieUtil.getCookie("TEXTING-COOKIE-MY-GAME-ID") === CookieUtil.getCookie("TEXTING-COOKIE-GAME-ID");
     }
 
     public getCurrentGameId(): string {
@@ -41,5 +52,13 @@ export class GameService {
         }
         CookieUtil.deleteCookie("TEXTING-COOKIE-GAME-ID");
         return null;
+    }
+
+    enterGame(gameId: string) {
+        CookieUtil.setCookie("TEXTING-COOKIE-GAME-ID", gameId);
+    }
+
+    leaveGame() {
+        CookieUtil.deleteCookie("TEXTING-COOKIE-GAME-ID");
     }
 }

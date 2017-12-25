@@ -1,0 +1,9 @@
+<div class="c-gameFinished">
+
+    <div *ngFor="let storyPiece of gameStatus.story">
+        <div>{{storyPiece.text}}</div>
+        <div>{{storyPiece.companionName}}</div>
+    </div>
+
+    <button (click)="leaveGame()">Leave</button>
+</div>

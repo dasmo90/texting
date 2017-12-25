@@ -1,5 +1,5 @@
 <div *ngIf="gameStatus" [ngSwitch]="gameStatus.status" class="p-game">
-    <div *ngSwitchCase="0">0</div>
-    <div *ngSwitchCase="1">1</div>
-    <div *ngSwitchCase="2">2</div>
+    <game-init-component *ngSwitchCase="0" [gameStatus]="gameStatus" (onStarted)="update()"></game-init-component>
+    <game-running-component *ngSwitchCase="1" [gameStatus]="gameStatus" (onCommited)="update()"></game-running-component>
+    <game-finished-component *ngSwitchCase="2" [gameStatus]="gameStatus" (onLeave)="logout()"></game-finished-component>
 </div>

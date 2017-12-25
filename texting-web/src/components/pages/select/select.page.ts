@@ -66,6 +66,20 @@ export class SelectPage implements OnInit, OnDestroy {
             });
     }
 
+    private enterGame(gameId: string): void {
+        this.gameService.enterGame(gameId);
+        this.httpClient.get("http://localhost:8080/game/enter", {
+            withCredentials: true,
+        })
+            .subscribe((success: boolean) => {
+                if (success === true) {
+                    this.onGameSelected.emit();
+                } else {
+                    this.gameService.leaveGame();
+                }
+            });
+    }
+
     private logout(): void {
         this.gameService.logout();
         this.onLogout.emit();
