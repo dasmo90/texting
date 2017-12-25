@@ -2,6 +2,7 @@ package de.marmor.texting.rest;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import de.marmor.texting.model.StoryPiece;
 public class GameStatus {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GameStatus.class);
+
 	private int status;
 	private boolean yourTurn;
 	private String whosTurnName;
@@ -47,7 +49,7 @@ public class GameStatus {
 				playerNames.add(game.getSettings().getPlayers().get(key));
 			}	
 		} else if(status == 1) {
-			yourTurn = game.whoseTurnId() == currentPlayerId;
+			yourTurn = Objects.equals(game.whoseTurnId(), currentPlayerId);
 			whosTurnName = game.getSettings().getPlayers().get(game.whoseTurnId());
 			shownLetters = game.getShownLetters();
 			currentRound = game.getCurrentRound();
@@ -66,7 +68,7 @@ public class GameStatus {
 			}
 		}
 	}
-	
+
 	public int getStatus() {
 		return status;
 	}
@@ -83,14 +85,6 @@ public class GameStatus {
 		this.yourTurn = yourTurn;
 	}
 
-	public String getShownWords() {
-		return shownLetters;
-	}
-
-	public void setShownWords(String shownWords) {
-		this.shownLetters = shownWords;
-	}
-
 	public String getWhosTurnName() {
 		return whosTurnName;
 	}
@@ -99,36 +93,20 @@ public class GameStatus {
 		this.whosTurnName = whosTurnName;
 	}
 
-	public List<String> getPlayers() {
+	public String getShownLetters() {
+		return shownLetters;
+	}
+
+	public void setShownLetters(String shownLetters) {
+		this.shownLetters = shownLetters;
+	}
+
+	public List<String> getPlayerNames() {
 		return playerNames;
 	}
 
-	public void setPlayers(List<String> playerNames) {
+	public void setPlayerNames(List<String> playerNames) {
 		this.playerNames = playerNames;
-	}
-
-	public int getShownWordsCount() {
-		return nofShownLetters;
-	}
-
-	public void setShownWordsCount(int shownWordsCount) {
-		this.nofShownLetters = shownWordsCount;
-	}
-
-	public int getMinWords() {
-		return minLetters;
-	}
-
-	public void setMinWords(int minWords) {
-		this.minLetters = minWords;
-	}
-
-	public int getMaxWords() {
-		return maxLetters;
-	}
-
-	public void setMaxWords(int maxWords) {
-		this.maxLetters = maxWords;
 	}
 
 	public int getCurrentRound() {
@@ -147,11 +125,35 @@ public class GameStatus {
 		this.story = story;
 	}
 
-	public int getRounds() {
+	public int getNofShownLetters() {
+		return nofShownLetters;
+	}
+
+	public void setNofShownLetters(int nofShownLetters) {
+		this.nofShownLetters = nofShownLetters;
+	}
+
+	public int getMinLetters() {
+		return minLetters;
+	}
+
+	public void setMinLetters(int minLetters) {
+		this.minLetters = minLetters;
+	}
+
+	public int getMaxLetters() {
+		return maxLetters;
+	}
+
+	public void setMaxLetters(int maxLetters) {
+		this.maxLetters = maxLetters;
+	}
+
+	public int getNofRounds() {
 		return nofRounds;
 	}
 
-	public void setRounds(int nofRounds) {
+	public void setNofRounds(int nofRounds) {
 		this.nofRounds = nofRounds;
 	}
 }
