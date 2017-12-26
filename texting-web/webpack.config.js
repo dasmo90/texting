@@ -8,7 +8,8 @@ module.exports = {
 	},
 	entry: {
 		polyfills: "./src/polyfills.ts",
-		main: "./src/app.ts"
+		main: "./src/app.ts",
+		style: "./src/style.scss"
 	},
 	output: {
 		path: path.resolve(__dirname, 'target'), // output directory
@@ -50,7 +51,7 @@ module.exports = {
 		),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'polyfills'
-		})
+		}),
 	],
 	devtool: "source-map",
 	devServer: {

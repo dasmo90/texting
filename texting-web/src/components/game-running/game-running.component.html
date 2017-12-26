@@ -1,19 +1,31 @@
 <div class="c-gameRunning">
     <div *ngIf="gameStatus.yourTurn">
+        <div>Round {{gameStatus.currentRound}} of {{gameStatus.nofRounds}}</div>
+        <div>Letzter Text:</div>
+        <div class="c-gameRunning__lastText">
+            {{gameStatus.shownLetters}}
+        </div>
         <form (ngSubmit)="commit(form.value)">
             <div>
                 <label for="textField">Your Text:</label>
             </div>
             <div>
-                <textarea id="textField" [formControl]="form.controls['text']"></textarea>
+                <textarea class="c-gameRunning__myText"
+                          id="textField"
+                          [formControl]="form.controls['text']"
+                          maxlength="{{gameStatus.maxLetters}}"></textarea>
             </div>
+            <div>Characters written: {{form.value.text.length}} / {{gameStatus.maxLetters}}</div>
             <div *ngIf="!form.controls['text'].valid && form.controls['text'].touched">
                 Your text should be between {{gameStatus.minLetters}} and {{gameStatus.maxLetters}} characters.
             </div>
             <button type="submit">Commit</button>
+
         </form>
     </div>
     <div *ngIf="!gameStatus.yourTurn">
-        It's {{gameStatus.whosTurnName}} turn.
+        It's {{gameStatus.whosTurnName}}'s turn.
     </div>
+
+    <button (click)="leaveGame()">Leave</button>
 </div>

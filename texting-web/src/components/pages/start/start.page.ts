@@ -33,10 +33,11 @@ export class StartPage implements OnInit {
 
     private next(value: any): void {
         if (this.form.valid) {
-            this.httpClient.get("http://localhost:8080/login", {
-                params: new HttpParams().set("name", value.name),
+            let name = value.name.trim();
+            this.httpClient.get("http://192.168.0.19:8080/login", {
+                params: new HttpParams().set("name", name),
             }).subscribe((result) => {
-                let player = new Player(result.toString(), value.name);
+                let player = new Player(result.toString(), name);
                 this.gameService.login(player);
                 this.onLogin.emit(player);
             });

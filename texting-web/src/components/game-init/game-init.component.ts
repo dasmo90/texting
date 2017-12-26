@@ -18,8 +18,12 @@ export class GameInitComponent implements OnInit {
     @Output()
     private onStarted: EventEmitter<void>;
 
+    @Output()
+    private onLeave: EventEmitter<void>;
+
     constructor(private gameService: GameService, private httpClient: HttpClient) {
         this.onStarted = new EventEmitter<void>();
+        this.onLeave = new EventEmitter<void>();
     }
 
     public ngOnInit(): void {
@@ -27,12 +31,17 @@ export class GameInitComponent implements OnInit {
     }
 
     private startGame(): void {
-        this.httpClient.get("http://localhost:8080/game/start", {
+        this.httpClient.get("http://192.168.0.19:8080/game/start", {
             withCredentials: true
         }).subscribe((success: boolean) => {
             if (success === true) {
                 this.onStarted.emit();
             }
         })
+    }
+
+    private leaveGame(): void {
+        this.gameService.leaveGame();
+        this.onLeave.emit();
     }
 }

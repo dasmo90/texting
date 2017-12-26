@@ -22,8 +22,12 @@ export class GameRunningComponent implements OnInit {
     @Output()
     private onCommited: EventEmitter<void>;
 
+    @Output()
+    private onLeave: EventEmitter<void>;
+
     constructor(private formBuilder: FormBuilder, private gameService: GameService, private httpClient: HttpClient) {
         this.onCommited = new EventEmitter<void>();
+        this.onLeave = new EventEmitter<void>();
     }
 
     public ngOnInit(): void {
@@ -38,7 +42,7 @@ export class GameRunningComponent implements OnInit {
 
     private commit(value: any): void {
         if (this.form.valid) {
-            this.httpClient.get("http://localhost:8080/game/commit/storypiece", {
+            this.httpClient.get("http://192.168.0.19:8080/game/commit/storypiece", {
                 params: new HttpParams().set("storypiece", value.text),
                 withCredentials: true,
             }).subscribe((success: boolean) => {
@@ -47,5 +51,10 @@ export class GameRunningComponent implements OnInit {
                 }
             });
         }
+    }
+
+    private leaveGame(): void {
+        this.gameService.leaveGame();
+        this.onLeave.emit();
     }
 }

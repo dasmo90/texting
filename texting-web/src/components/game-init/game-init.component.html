@@ -1,5 +1,5 @@
 <div class="c-gameInit">
-    <div>Runden: {{gameStatus.nofShownLetters}}</div>
+    <div>Runden: {{gameStatus.nofRounds}}</div>
     <div>Angezeigte Buchstaben: {{gameStatus.nofShownLetters}}</div>
     <div>Minimum an Buchstaben: {{gameStatus.minLetters}}</div>
     <div>Maximum an Buchstaben: {{gameStatus.maxLetters}}</div>
@@ -7,4 +7,6 @@
         <li *ngFor="let playerName of gameStatus.playerNames">{{playerName}}</li>
     </ul>
     <button *ngIf="gameService.isMyGame()" (click)="startGame()">Start</button>
+
+    <button (click)="leaveGame()">Leave</button>
 </div>

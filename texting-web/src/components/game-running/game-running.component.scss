@@ -1,3 +1,13 @@
 .c-gameRunning {
 
+  &__lastText {
+    font-style: italic;
+  }
+
+  &__myText {
+    width: 100%;
+    resize: none;
+    height: 80px;
+    font-size: 1em;
+  }
 }

@@ -38,7 +38,7 @@ export class SelectPage implements OnInit, OnDestroy {
         Observable.interval(2000)
             .startWith(0)
             .takeUntil(this.unsubscribeSubject)
-            .switchMap(() => this.httpClient.get("http://localhost:8080/games/unstarted/poll", {
+            .switchMap(() => this.httpClient.get("http://192.168.0.19:8080/games/unstarted/poll", {
                 withCredentials: true,
             }))
             .subscribe((data: GameTeaserDto[]) => {
@@ -52,11 +52,11 @@ export class SelectPage implements OnInit, OnDestroy {
     }
 
     private newGame(): void {
-        this.httpClient.get("http://localhost:8080/game/new", {
+        this.httpClient.get("http://192.168.0.19:8080/game/new", {
             params: new HttpParams()
                 .set("shownLetters", "40")
                 .set("minLetters", "50")
-                .set("maxLetters", "100")
+                .set("maxLetters", "150")
                 .set("rounds", "5"),
             withCredentials: true,
         })
@@ -68,7 +68,7 @@ export class SelectPage implements OnInit, OnDestroy {
 
     private enterGame(gameId: string): void {
         this.gameService.enterGame(gameId);
-        this.httpClient.get("http://localhost:8080/game/enter", {
+        this.httpClient.get("http://192.168.0.19:8080/game/enter", {
             withCredentials: true,
         })
             .subscribe((success: boolean) => {
