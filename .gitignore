@@ -6,3 +6,4 @@ npm-debug.log
 .classpath
 .project
 .settings/
+!texting-server/start.bat
