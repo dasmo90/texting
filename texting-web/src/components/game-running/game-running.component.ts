@@ -42,7 +42,7 @@ export class GameRunningComponent implements OnInit {
 
     private commit(value: any): void {
         if (this.form.valid) {
-            this.httpClient.get("http://192.168.0.19:8080/game/commit/storypiece", {
+            this.httpClient.get("game/commit/storypiece", {
                 params: new HttpParams().set("storypiece", value.text),
                 withCredentials: true,
             }).subscribe((success: boolean) => {

@@ -34,7 +34,7 @@ export class StartPage implements OnInit {
     private next(value: any): void {
         if (this.form.valid) {
             let name = value.name.trim();
-            this.httpClient.get("http://192.168.0.19:8080/login", {
+            this.httpClient.get("login", {
                 params: new HttpParams().set("name", name),
             }).subscribe((result) => {
                 let player = new Player(result.toString(), name);

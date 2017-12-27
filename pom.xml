@@ -15,8 +15,8 @@
 	</properties>
 
 	<modules>
-		<module>texting-server</module>
 		<module>texting-web</module>
+		<module>texting-server</module>
 	</modules>
 
 

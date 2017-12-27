@@ -40,7 +40,7 @@ export class GamePage implements OnInit, OnDestroy {
         Observable.interval(2000)
             .startWith(0)
             .takeUntil(this.unsubscribeSubject)
-            .switchMap(() => this.httpClient.get("http://192.168.0.19:8080/game/status/poll", {
+            .switchMap(() => this.httpClient.get("game/status/poll", {
                 withCredentials: true,
             }))
             .subscribe((data: GameStatusDto) => {
@@ -49,7 +49,7 @@ export class GamePage implements OnInit, OnDestroy {
     }
 
     private update(): void {
-        this.httpClient.get("http://192.168.0.19:8080/game/status/poll", {
+        this.httpClient.get("game/status/poll", {
             withCredentials: true,
         }).subscribe((data: GameStatusDto) => {
             this.gameStatus = data;

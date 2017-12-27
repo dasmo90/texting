@@ -12,7 +12,7 @@ module.exports = {
 		style: "./src/style.scss"
 	},
 	output: {
-		path: path.resolve(__dirname, 'target'), // output directory
+		path: path.resolve(__dirname, 'target/dist'), // output directory
 		filename: "[name].js" // name of the generated bundle
 	},
 	module: {

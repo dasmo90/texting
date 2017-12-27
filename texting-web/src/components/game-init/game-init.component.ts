@@ -31,7 +31,7 @@ export class GameInitComponent implements OnInit {
     }
 
     private startGame(): void {
-        this.httpClient.get("http://192.168.0.19:8080/game/start", {
+        this.httpClient.get("game/start", {
             withCredentials: true
         }).subscribe((success: boolean) => {
             if (success === true) {
