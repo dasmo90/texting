@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, Output, EventEmitter} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {GameStatusDto} from "../../dto/game-status.dto";
 import {GameService} from "../../service/game.service";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: "game-init-component",
@@ -34,17 +34,17 @@ export class GameInitComponent implements OnInit {
 
     private startGame(): void {
         this.httpClient.get("game/start", {
-            withCredentials: true
+            withCredentials: true,
         }).subscribe((success: boolean) => {
             if (success === true) {
                 this.onStarted.emit();
             }
-        })
+        });
     }
 
     private leaveGame(): void {
         this.httpClient.get("game/leave", {
-            withCredentials: true
+            withCredentials: true,
         }).subscribe((success: boolean) => {
             if (success === true) {
                 this.gameService.leaveGame();
@@ -55,7 +55,7 @@ export class GameInitComponent implements OnInit {
 
     private shutGame(): void {
         this.httpClient.get("game/shut", {
-            withCredentials: true
+            withCredentials: true,
         }).subscribe((success: boolean) => {
             if (success === true) {
                 this.gameService.leaveGame();

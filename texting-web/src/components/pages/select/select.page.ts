@@ -1,10 +1,9 @@
-import {Component, Input, OnInit, Output, EventEmitter, OnDestroy} from "@angular/core";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from "@angular/core";
+import {Observable, Subject} from "rxjs";
+import {GameTeaserDto} from "../../../dto/game-teaser.dto";
 import {Player} from "../../../model/player.model";
 import {GameService} from "../../../service/game.service";
-import {Observable, Subject} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {GameTeaserDto} from "../../../dto/game-teaser.dto";
-import {HttpParams} from "@angular/common/http";
 
 @Component({
     selector: "select-page",

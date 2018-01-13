@@ -1,7 +1,7 @@
-import {Component, Input, OnInit, Output, EventEmitter} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {GameStatusDto} from "../../dto/game-status.dto";
 import {GameService} from "../../service/game.service";
-import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: "game-finished-component",
@@ -28,7 +28,7 @@ export class GameFinishedComponent implements OnInit {
 
     private leaveGame(): void {
         this.httpClient.get("game/leave", {
-            withCredentials: true
+            withCredentials: true,
         }).subscribe((success: boolean) => {
             if (success === true) {
                 this.gameService.leaveGame();

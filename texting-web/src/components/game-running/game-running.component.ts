@@ -1,9 +1,9 @@
-import {Component, Input, OnInit, EventEmitter, Output} from "@angular/core";
-import {GameStatusDto} from "../../dto/game-status.dto";
-import {GameService} from "../../service/game.service";
-import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {HttpClient} from "@angular/common/http";
 import {HttpParams} from "@angular/common/http";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {GameStatusDto} from "../../dto/game-status.dto";
+import {GameService} from "../../service/game.service";
 
 @Component({
     selector: "game-running-component",
@@ -36,7 +36,7 @@ export class GameRunningComponent implements OnInit {
                 Validators.required,
                 Validators.minLength(this.gameStatus.minLetters),
                 Validators.maxLength(this.gameStatus.maxLetters),
-            ])]
+            ])],
         });
     }
 
@@ -55,7 +55,7 @@ export class GameRunningComponent implements OnInit {
 
     private leaveGame(): void {
         this.httpClient.get("game/leave", {
-            withCredentials: true
+            withCredentials: true,
         }).subscribe((success: boolean) => {
             if (success === true) {
                 this.gameService.leaveGame();

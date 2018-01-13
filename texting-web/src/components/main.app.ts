@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {GameService} from "../service/game.service";
-import {Player} from "../model/player.model";
 
 @Component({
     selector: "texting-app",

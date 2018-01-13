@@ -1,8 +1,8 @@
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {GameService} from "../../../service/game.service";
 import {Player} from "../../../model/player.model";
+import {GameService} from "../../../service/game.service";
 
 @Component({
     selector: "start-page",

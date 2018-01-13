@@ -1,9 +1,7 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {Component, EventEmitter, OnInit, Output, OnDestroy} from "@angular/core";
+import {HttpClient} from "@angular/common/http";
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {GameService} from "../../../service/game.service";
-import {Player} from "../../../model/player.model";
-import {Subject, Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {GameStatusDto} from "../../../dto/game-status.dto";
 
 @Component({
@@ -26,7 +24,11 @@ export class GamePage implements OnInit, OnDestroy {
 
     constructor(formBuilder: FormBuilder, private httpClient: HttpClient) {
         this.form = formBuilder.group({
-            text: [null, Validators.compose([Validators.required, Validators.minLength(50), Validators.maxLength(100)])],
+            text: [null, Validators.compose([
+                Validators.required,
+                Validators.minLength(50),
+                Validators.maxLength(100),
+            ])],
         });
         this.onLeave = new EventEmitter<void>();
         this.unsubscribeSubject = new Subject<GameStatusDto>();
@@ -44,6 +46,11 @@ export class GamePage implements OnInit, OnDestroy {
             });
     }
 
+    public ngOnDestroy(): void {
+        this.unsubscribeSubject.next();
+        this.unsubscribeSubject.complete();
+    }
+
     private leave(): void {
         this.onLeave.emit();
     }
@@ -54,10 +61,5 @@ export class GamePage implements OnInit, OnDestroy {
         }).subscribe((data: GameStatusDto) => {
             this.gameStatus = data;
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.unsubscribeSubject.next();
-        this.unsubscribeSubject.complete();
     }
 }
