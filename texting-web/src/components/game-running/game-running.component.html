@@ -26,7 +26,7 @@
         </form>
     </div>
     <div *ngIf="!gameStatus.yourTurn">
-        <div class="c-gameRunning__othersTurn">It's {{gameStatus.whosTurnName}}'s turn.</div>
+        <div class="c-gameRunning__othersTurn">{{gameStatus.whosTurnName}} ist am Zug.</div>
 
         <div class="c-gameRunning__buttons">
             <button (click)="leaveGame()" class="c-gameRunning__button">Leave</button>
