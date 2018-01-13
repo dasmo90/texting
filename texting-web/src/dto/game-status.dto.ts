@@ -1,5 +1,6 @@
 import {StoryPieceDto} from "./story-piece.dto";
 export class GameStatusDto {
+    public myGame: boolean;
     public status: number;
     public yourTurn: boolean;
     public whosTurnName: string;

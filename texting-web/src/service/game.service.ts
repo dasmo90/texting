@@ -54,11 +54,11 @@ export class GameService {
         return null;
     }
 
-    enterGame(gameId: string) {
+    public enterGame(gameId: string) {
         CookieUtil.setCookie("TEXTING-COOKIE-GAME-ID", gameId);
     }
 
-    leaveGame() {
+    public leaveGame() {
         CookieUtil.deleteCookie("TEXTING-COOKIE-GAME-ID");
     }
 }
