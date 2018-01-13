@@ -27,7 +27,6 @@ import java.util.stream.Stream;
  * Created by mbuerger on 16.12.2017.
  */
 @RestController
-@CrossOrigin(origins = "*")
 public class Session {
 
 	private static final String COOKIE_COMPANION_ID = "TEXTING-COOKIE-COMPANION-ID";

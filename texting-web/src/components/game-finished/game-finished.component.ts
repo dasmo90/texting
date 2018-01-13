@@ -27,7 +27,13 @@ export class GameFinishedComponent implements OnInit {
     }
 
     private leaveGame(): void {
-        this.gameService.leaveGame();
-        this.onLeave.emit();
+        this.httpClient.get("game/leave", {
+            withCredentials: true
+        }).subscribe((success: boolean) => {
+            if (success === true) {
+                this.gameService.leaveGame();
+                this.onLeave.emit();
+            }
+        });
     }
 }

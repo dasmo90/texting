@@ -51,11 +51,15 @@ module.exports = {
 		),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'polyfills'
-		}),
+		})
 	],
 	devtool: "source-map",
 	devServer: {
 		historyApiFallback: true,
-		port: 8088
+		port: 8088,
+		proxy: [{
+			context: ["/game", "/login"],
+			target: "http://localhost:8080"
+		}]
 	}
 };

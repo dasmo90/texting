@@ -12,6 +12,8 @@ import {HttpClient} from "@angular/common/http";
 })
 export class GameInitComponent implements OnInit {
 
+    private myGame: boolean;
+
     @Input()
     private gameStatus: GameStatusDto;
 
@@ -27,7 +29,7 @@ export class GameInitComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // no action
+        this.myGame = this.gameService.isMyGame();
     }
 
     private startGame(): void {
@@ -41,7 +43,24 @@ export class GameInitComponent implements OnInit {
     }
 
     private leaveGame(): void {
-        this.gameService.leaveGame();
-        this.onLeave.emit();
+        this.httpClient.get("game/leave", {
+            withCredentials: true
+        }).subscribe((success: boolean) => {
+            if (success === true) {
+                this.gameService.leaveGame();
+                this.onLeave.emit();
+            }
+        });
+    }
+
+    private shutGame(): void {
+        this.httpClient.get("game/shut", {
+            withCredentials: true
+        }).subscribe((success: boolean) => {
+            if (success === true) {
+                this.gameService.leaveGame();
+                this.onLeave.emit();
+            }
+        });
     }
 }

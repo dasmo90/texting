@@ -18,21 +18,17 @@ export class GamePage implements OnInit, OnDestroy {
     private form: FormGroup;
 
     @Output()
-    private onLogin: EventEmitter<Player>;
-
-    @Output()
-    private onLogout: EventEmitter<void>;
+    private onLeave: EventEmitter<void>;
 
     private unsubscribeSubject: Subject<GameStatusDto>;
 
     private gameStatus: GameStatusDto;
 
-    constructor(formBuilder: FormBuilder, private httpClient: HttpClient, private gameService: GameService) {
+    constructor(formBuilder: FormBuilder, private httpClient: HttpClient) {
         this.form = formBuilder.group({
             text: [null, Validators.compose([Validators.required, Validators.minLength(50), Validators.maxLength(100)])],
         });
-        this.onLogin = new EventEmitter<Player>();
-        this.onLogout = new EventEmitter<void>();
+        this.onLeave = new EventEmitter<void>();
         this.unsubscribeSubject = new Subject<GameStatusDto>();
     }
 
@@ -48,17 +44,16 @@ export class GamePage implements OnInit, OnDestroy {
             });
     }
 
+    private leave(): void {
+        this.onLeave.emit();
+    }
+
     private update(): void {
         this.httpClient.get("game/status/poll", {
             withCredentials: true,
         }).subscribe((data: GameStatusDto) => {
             this.gameStatus = data;
         });
-    }
-
-    private logout(): void {
-        this.gameService.logout();
-        this.onLogout.emit();
     }
 
     public ngOnDestroy(): void {
