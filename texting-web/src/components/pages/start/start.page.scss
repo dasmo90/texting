@@ -1,14 +1,8 @@
+@import "../../../styles/mixins";
+
 .p-start {
 
-  &__error {
-    color: darkred;
-    font-size: 0.8rem;
-    visibility: hidden;
-
-    &.-show {
-      visibility: visible;
-    }
-  }
+  @include error();
 
   &__button {
 

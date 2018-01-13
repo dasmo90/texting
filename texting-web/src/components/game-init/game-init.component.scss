@@ -1,13 +1,21 @@
+@import "../../styles/mixins";
+
 .c-gameInit {
 
   &__settings {
     width: 100%;
-    table-layout:fixed;
-    border: 1px dashed lightblue;
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 1px 0 0 10px;
     margin-top: 5px;
 
     tr:nth-child(odd) {
       background-color: lightblue;
+      color: white;
+    }
+
+    tr:first-child {
+      background-color: darkblue;
       color: white;
     }
 
@@ -17,12 +25,10 @@
   }
 
   &__players {
-    border: 1px dashed lightblue;
-    margin-top: 5px;
-
-    &Header {
-      margin-top: 15px;
-    }
+    border-color: darkblue;
+    border-style: solid;
+    border-width: 1px 0 0 10px;
+    margin-top: 15px;
 
     li {
       padding: 3px 5px;
@@ -32,13 +38,12 @@
       background-color: lightblue;
       color: white;
     }
+
+    li:first-child {
+      background-color: darkblue;
+      color: white;
+    }
   }
 
-  &__buttons {
-    margin-top: 25px;
-  }
-
-  &__button {
-    margin-top: 15px;
-  }
+  @include buttons();
 }

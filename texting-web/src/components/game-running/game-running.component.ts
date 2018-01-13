@@ -32,7 +32,7 @@ export class GameRunningComponent implements OnInit {
 
     public ngOnInit(): void {
         this.form = this.formBuilder.group({
-            text: [null, Validators.compose([
+            text: ["", Validators.compose([
                 Validators.required,
                 Validators.minLength(this.gameStatus.minLetters),
                 Validators.maxLength(this.gameStatus.maxLetters),
@@ -47,6 +47,7 @@ export class GameRunningComponent implements OnInit {
                 withCredentials: true,
             }).subscribe((success: boolean) => {
                 if (success === true) {
+                    this.form.reset();
                     this.onCommited.emit();
                 }
             });

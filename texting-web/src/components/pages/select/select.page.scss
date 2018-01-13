@@ -6,7 +6,7 @@
 
   &__games {
     margin-top: 5px;
-    border: 1px dashed lightblue;
+    border: 1px darkblue dashed;
   }
 
   &__game {
@@ -14,7 +14,7 @@
 
     &--clickable {
       cursor: pointer;
-      background-color: lightblue;
+      background-color: darkblue;
       color: white;
     }
 

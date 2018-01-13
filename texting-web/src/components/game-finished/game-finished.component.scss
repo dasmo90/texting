@@ -1,3 +1,29 @@
+@import "../../styles/mixins";
+
 .c-gameFinished {
 
+  &__table {
+    margin-top: 15px;
+    line-height: 1.5rem;
+
+    tr {
+      border-bottom: 1px dashed lightgray;
+    }
+
+    td {
+      vertical-align: bottom;
+      text-align: right;
+      padding: 0 8px;
+      color: lightgray;
+
+      &:first-child {
+        font-style: italic;
+        color: darkslategray;
+        text-align: left;
+        vertical-align: top;
+      }
+    }
+  }
+
+  @include buttons();
 }

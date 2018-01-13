@@ -1,0 +1,23 @@
+@mixin buttons {
+
+  &__buttons {
+    margin-top: 25px;
+  }
+
+  &__button {
+    margin-top: 15px;
+  }
+}
+
+@mixin error {
+
+  &__error {
+    color: darkred;
+    font-size: .8rem;
+    visibility: hidden;
+
+    &.-show {
+      visibility: visible;
+    }
+  }
+}

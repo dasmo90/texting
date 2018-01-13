@@ -1,9 +1,22 @@
 <div class="c-gameFinished">
 
-    <div *ngFor="let storyPiece of gameStatus.story">
-        <div>{{storyPiece.text}}</div>
-        <div>{{storyPiece.companionName}}</div>
-    </div>
+    <div>Das Spiel ist vorbei. Hier ist eure Geschichte:</div>
+    <table class="c-gameFinished__table">
+        <tr>
+            <td>Es war einmal ...</td>
+            <td>Erzähler</td>
+        </tr>
+        <tr *ngFor="let storyPiece of gameStatus.story">
+            <td>{{storyPiece.text}}</td>
+            <td>{{storyPiece.companionName}}</td>
+        </tr>
+        <tr>
+            <td>... und wenn sie nicht gestorben sind, dann leben sie noch heute.</td>
+            <td>Erzähler</td>
+        </tr>
+    </table>
 
-    <button (click)="leaveGame()">Leave</button>
+    <div class="c-gameFinished__buttons">
+        <button (click)="leaveGame()">Spiel verlassen</button>
+    </div>
 </div>

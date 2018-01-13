@@ -1,11 +1,11 @@
 <div class="p-start">
     <form (ngSubmit)="next(form.value)">
-        <div><label for="name">Enter your name:</label></div>
+        <div><label for="name">Gib deinen Namen ein:</label></div>
         <div><input id="name" type="text" [formControl]="form.controls['name']"></div>
         <div [ngClass]="{'-show': !form.controls['name'].valid && form.controls['name'].touched}"
              class="p-start__error">
-            Your name is mandatory and should not exceed {{nameMaxLength}} characters.
+            Du brauchst einen Namen und er sollte maximal {{nameMaxLength}} Zeichen haben.
         </div>
-        <button class="p-start__button--next" type="submit">Next</button>
+        <button class="p-start__button--next -primary" type="submit">Weiter</button>
     </form>
 </div>

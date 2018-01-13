@@ -1,13 +1,37 @@
+@import "../../styles/mixins";
+
 .c-gameRunning {
 
   &__lastText {
     font-style: italic;
+
+    &Label {
+     margin-top: 15px;
+    }
   }
 
-  &__myText {
-    width: 100%;
-    resize: none;
-    height: 80px;
-    font-size: 1em;
+  &__text {
+
+    &Label {
+      margin-top: 15px;
+    }
+
+    textarea {
+      height: 80px;
+    }
   }
+
+  &__letterCount {
+    text-align: right;
+    font-size: .8rem;
+  }
+
+  &__othersTurn {
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  @include error();
+
+  @include buttons();
 }

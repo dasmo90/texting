@@ -11,10 +11,10 @@ input, button {
   font-size: 14px;
 }
 
-input {
+input, textarea {
   box-sizing: border-box;
   width: 100%;
-  padding: 10px 15px 0;
+  padding: 10px 5px 0;
   margin-bottom: 10px;
   border-bottom: 1px dashed darkblue;
   color: darkblue;
@@ -25,12 +25,23 @@ input {
   }
 }
 
+textarea {
+  resize: none;
+  border: 1px dashed darkblue;
+  padding: 10px 5px;
+  margin-bottom: 0;
+}
+
 button {
   box-sizing: border-box;
   width: 100%;
   padding: 10px 15px 10px;
-  background-color: lightblue;
+  background-color: gray;
   color: white;
+
+  &.-primary {
+    background-color: darkblue;
+  }
 }
 
 .clickable {

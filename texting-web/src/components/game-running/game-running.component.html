@@ -1,31 +1,35 @@
 <div class="c-gameRunning">
+    <div class="c-gameRunning__round">Runde {{gameStatus.currentRound}} von {{gameStatus.nofRounds}}</div>
     <div *ngIf="gameStatus.yourTurn">
-        <div>Round {{gameStatus.currentRound}} of {{gameStatus.nofRounds}}</div>
-        <div>Letzter Text:</div>
+        <div class="c-gameRunning__lastTextLabel">Vorheriger Text:</div>
         <div class="c-gameRunning__lastText">
-            {{gameStatus.shownLetters}}
+            {{gameStatus.shownLetters ? gameStatus.shownLetters : 'Es war einmal ...'}}
         </div>
         <form (ngSubmit)="commit(form.value)">
-            <div>
-                <label for="textField">Your Text:</label>
+            <div class="c-gameRunning__textLabel">
+                <label for="textField">Dein Text:</label>
             </div>
-            <div>
-                <textarea class="c-gameRunning__myText"
-                          id="textField"
+            <div class="c-gameRunning__text">
+                <textarea id="textField"
                           [formControl]="form.controls['text']"
                           maxlength="{{gameStatus.maxLetters}}"></textarea>
             </div>
-            <div>Characters written: {{form.value.text.length}} / {{gameStatus.maxLetters}}</div>
-            <div *ngIf="!form.controls['text'].valid && form.controls['text'].touched">
-                Your text should be between {{gameStatus.minLetters}} and {{gameStatus.maxLetters}} characters.
+            <div class="c-gameRunning__letterCount">{{form.value.text.length}} / {{gameStatus.maxLetters}}</div>
+            <div [ngClass]="{'-show': !form.controls['text'].valid && form.controls['text'].touched}" class="c-gameRunning__error">
+                Dein Text muss zwischen {{gameStatus.minLetters}} und {{gameStatus.maxLetters}} Zeichen enthalten.
             </div>
-            <button type="submit">Commit</button>
+            <div class="c-gameRunning__buttons">
+                <button class="c-gameRunning__button -primary" type="submit">Text abschicken</button>
+                <button (click)="leaveGame()" class="c-gameRunning__button">Spiel verlassen</button>
+            </div>
 
         </form>
     </div>
     <div *ngIf="!gameStatus.yourTurn">
-        It's {{gameStatus.whosTurnName}}'s turn.
-    </div>
+        <div class="c-gameRunning__othersTurn">It's {{gameStatus.whosTurnName}}'s turn.</div>
 
-    <button (click)="leaveGame()">Leave</button>
+        <div class="c-gameRunning__buttons">
+            <button (click)="leaveGame()" class="c-gameRunning__button">Leave</button>
+        </div>
+    </div>
 </div>
