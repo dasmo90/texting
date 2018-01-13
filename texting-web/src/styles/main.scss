@@ -1,0 +1,38 @@
+@import "clean";
+
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: darkslategray;
+}
+
+input, button {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px 0;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed darkblue;
+  color: darkblue;
+
+  &.ng-invalid {
+    border-color: darkred;
+    color: darkred;
+  }
+}
+
+button {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px 10px;
+  background-color: lightblue;
+  color: white;
+}
+
+.clickable {
+  cursor: pointer;
+}

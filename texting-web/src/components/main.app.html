@@ -1,9 +1,9 @@
 <div class="c-app">
     <header-component title="Texting"></header-component>
 
-    <ng-container [ngSwitch]="status">
+    <div [ngSwitch]="status" class="c-app__container">
         <start-page *ngSwitchCase="0" (onLogin)="ngOnInit()"></start-page>
         <select-page *ngSwitchCase="1" (onLogout)="ngOnInit()" (onGameSelected)="ngOnInit()"></select-page>
         <game-page *ngSwitchCase="2" (onLeave)="ngOnInit()"></game-page>
-    </ng-container>
+    </div>
 </div>

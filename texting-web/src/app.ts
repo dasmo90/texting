@@ -13,6 +13,8 @@ import {SelectPage} from "./components/pages/select/select.page";
 import {StartPage} from "./components/pages/start/start.page";
 import {GameService} from "./service/game.service";
 
+import "./styles/main.scss";
+
 @NgModule({
     bootstrap: [
         MainApp,

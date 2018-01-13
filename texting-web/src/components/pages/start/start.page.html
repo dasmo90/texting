@@ -2,7 +2,10 @@
     <form (ngSubmit)="next(form.value)">
         <div><label for="name">Enter your name:</label></div>
         <div><input id="name" type="text" [formControl]="form.controls['name']"></div>
-        <div *ngIf="!form.controls['name'].valid && form.controls['name'].touched">Your name is mandatory and should not exceed {{nameMaxLength}} characters.</div>
-        <button type="submit">Next</button>
+        <div [ngClass]="{'-show': !form.controls['name'].valid && form.controls['name'].touched}"
+             class="p-start__error">
+            Your name is mandatory and should not exceed {{nameMaxLength}} characters.
+        </div>
+        <button class="p-start__button--next" type="submit">Next</button>
     </form>
 </div>

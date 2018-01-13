@@ -1,12 +1,30 @@
 <div class="c-gameInit">
-    <div>Runden: {{gameStatus.nofRounds}}</div>
-    <div>Angezeigte Buchstaben: {{gameStatus.nofShownLetters}}</div>
-    <div>Minimum an Buchstaben: {{gameStatus.minLetters}}</div>
-    <div>Maximum an Buchstaben: {{gameStatus.maxLetters}}</div>
-    <ul>
+    <div class="c-gameInit__settingsHeader">Game Settings</div>
+    <table class="c-gameInit__settings">
+        <tr>
+            <td>Rounds</td>
+            <td>{{gameStatus.nofRounds}}</td>
+        </tr>
+        <tr>
+            <td>Shown Letters</td>
+            <td>{{gameStatus.nofShownLetters}}</td>
+        </tr>
+        <tr>
+            <td>Minimum Letters</td>
+            <td>{{gameStatus.minLetters}}</td>
+        </tr>
+        <tr>
+            <td>Maximum Letters</td>
+            <td>{{gameStatus.maxLetters}}</td>
+        </tr>
+    </table>
+    <div class="c-gameInit__playersHeader">Players</div>
+    <ul class="c-gameInit__players">
         <li *ngFor="let playerName of gameStatus.playerNames">{{playerName}}</li>
     </ul>
-    <button *ngIf="myGame" (click)="startGame()">Start</button>
-    <button *ngIf="myGame" (click)="shutGame()">Shut</button>
-    <button *ngIf="!myGame" (click)="leaveGame()">Leave</button>
+    <div class="c-gameInit__buttons">
+        <button *ngIf="myGame" class="c-gameInit__button" (click)="startGame()">Start</button>
+        <button *ngIf="myGame" class="c-gameInit__button" (click)="shutGame()">Shut</button>
+        <button *ngIf="!myGame" class="c-gameInit__button" (click)="leaveGame()">Leave</button>
+    </div>
 </div>

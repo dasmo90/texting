@@ -1,3 +1,44 @@
 .c-gameInit {
 
+  &__settings {
+    width: 100%;
+    table-layout:fixed;
+    border: 1px dashed lightblue;
+    margin-top: 5px;
+
+    tr:nth-child(odd) {
+      background-color: lightblue;
+      color: white;
+    }
+
+    td {
+      padding: 3px 5px;
+    }
+  }
+
+  &__players {
+    border: 1px dashed lightblue;
+    margin-top: 5px;
+
+    &Header {
+      margin-top: 15px;
+    }
+
+    li {
+      padding: 3px 5px;
+    }
+
+    li:nth-child(odd) {
+      background-color: lightblue;
+      color: white;
+    }
+  }
+
+  &__buttons {
+    margin-top: 25px;
+  }
+
+  &__button {
+    margin-top: 15px;
+  }
 }

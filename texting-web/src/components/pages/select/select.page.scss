@@ -1,3 +1,33 @@
-.p-name {
+.p-select {
 
+  &__gamesText {
+    margin-top: 25px;
+  }
+
+  &__games {
+    margin-top: 5px;
+    border: 1px dashed lightblue;
+  }
+
+  &__game {
+    padding: 10px 5px;
+
+    &--clickable {
+      cursor: pointer;
+      background-color: lightblue;
+      color: white;
+    }
+
+    &--clickable + &--clickable {
+      border-top: 1px solid white;
+    }
+  }
+
+  &__buttons {
+    margin-top: 25px;
+  }
+
+  &__button {
+    margin-top: 15px;
+  }
 }

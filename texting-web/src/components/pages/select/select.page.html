@@ -1,12 +1,14 @@
 <div class="p-select">
-    Hello, {{player.getName()}}!
-    <div>Enter a game:</div>
-    <ul>
-        <li *ngFor="let game of games" (click)="enterGame(game.id)">
+    <div class="p-select__greeting">Hello, {{player.getName()}}!</div>
+    <div class="p-select__gamesText">Select a game:</div>
+    <ul class="p-select__games">
+        <li *ngFor="let game of games" (click)="enterGame(game.id)" class="p-select__game p-select__game--clickable">
             {{game.name}}
         </li>
-        <li *ngIf="games.length === 0">No games found.</li>
+        <li *ngIf="games.length === 0" class="p-select__game">No games found.</li>
     </ul>
-    <button (click)="newGame()">New game</button>
-    <button (click)="logout()">Logout</button>
+    <div class="p-select__buttons">
+        <button (click)="newGame()" class="p-select__button">New game</button>
+        <button (click)="logout()" class="p-select__button">Logout</button>
+    </div>
 </div>
