@@ -1,0 +1,22 @@
+.c-dialog {
+  background-color: rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  &__window {
+    background-color: white;
+    position: fixed;
+    top: 20%;
+    left: 20px;
+    right: 20px;
+
+    h1 {
+      background-color: darkblue;
+      color: white;
+      padding: 5px 15px;
+    }
+  }
+}

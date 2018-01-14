@@ -1,5 +1,6 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {GameService} from "../service/game.service";
+import {DialogComponent} from "./dialog/dialog.component";
 
 @Component({
     selector: "texting-app",
@@ -11,6 +12,9 @@ import {GameService} from "../service/game.service";
 export class MainApp implements OnInit {
 
     private status: number = 0;
+
+    @ViewChild("dialog")
+    private dialog: DialogComponent;
 
     constructor(private gameService: GameService) {
         // no action

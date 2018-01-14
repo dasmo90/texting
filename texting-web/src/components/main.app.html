@@ -6,4 +6,6 @@
         <select-page *ngSwitchCase="1" (onLogout)="ngOnInit()" (onGameSelected)="ngOnInit()"></select-page>
         <game-page *ngSwitchCase="2" (onLeave)="ngOnInit()"></game-page>
     </div>
+
+    <dialog-component #dialog></dialog-component>
 </div>

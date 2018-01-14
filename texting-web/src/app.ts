@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
+import {DialogComponent} from "./components/dialog/dialog.component";
 import {GameFinishedComponent} from "./components/game-finished/game-finished.component";
 import {GameInitComponent} from "./components/game-init/game-init.component";
 import {GameRunningComponent} from "./components/game-running/game-running.component";
@@ -22,6 +23,7 @@ import "./styles/main.scss";
     declarations: [
         MainApp,
         HeaderComponent,
+        DialogComponent,
         SelectPage,
         StartPage,
         GamePage,
