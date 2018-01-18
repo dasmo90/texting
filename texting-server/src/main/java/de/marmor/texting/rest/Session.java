@@ -58,6 +58,50 @@ public class Session {
 		return new StringResponseEntity(newCompanionId, HttpStatus.OK);
 	}
 
+	
+	/**
+	 * a player who logs out, leaves (or shuts, if game owner) the game he or she might be in
+	 * and is removed from idleCompanions
+	 * 
+	 * @return boolean if logout was successful
+	 */
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public boolean logout() {
+		String companionId = getCompanionId();
+		// if player not in game, simply remove
+		if (idleCompanions.containsKey(companionId)) {
+			idleCompanions.remove(companionId);
+			return true;
+		} else {
+			// find game, that contains player
+			for(String key : games.keySet()) {
+				if(games.get(key).getSettings().getPlayers().containsKey(companionId)) {
+					int status = games.get(key).getStatus();
+					// if game already started, remove player from running game
+					if(status != 0) {
+						games.get(key).removeFromRunningGame(companionId);
+						return true;
+					} else {
+						// if owner logs out, all players return to idleCompanions except for owner
+						if(games.get(key).getSettings().getOwnerId().equals(companionId)) {
+							Map<String, String> returnedCompanions = games.get(key).getSettings().removePlayer(companionId);
+							games.remove(key);
+							idleCompanions.putAll(returnedCompanions);
+							idleCompanions.remove(companionId);
+							return true;
+						} else {
+							// if not the owner, just leave the game
+							games.get(key).getSettings().removePlayer(companionId);
+							return true;
+						}
+					}
+				}
+			}
+			// if player is not idle and not in game, there is nobody to logout
+			return false;
+		}
+	}
+
 	/**
 	 * whoever makes a new game is the game owner, who is the only one allowed to
 	 * start that game later on one can only participate in one game at a time to
