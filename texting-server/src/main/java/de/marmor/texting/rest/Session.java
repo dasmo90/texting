@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -284,17 +284,17 @@ public class Session {
 	 * @return
 	 */
 	@RequestMapping(value = "/game/status/poll", method = RequestMethod.GET)
-	public GameStatus gameStatus() {
+	public ResponseEntity<Object> gameStatus() {
 		String companionId = getCompanionId();
 		String gameId = getGameId();
 		LOG.info("Game: " + gameId + ", Companion: " + companionId);
 		if (games.containsKey(gameId)) {
 			if (games.get(gameId).getSettings().getPlayers().containsKey(companionId)) {
-				return new GameStatus(games.get(gameId), companionId);
+				return new ResponseEntity<Object>(new GameStatus(games.get(gameId), companionId), HttpStatus.OK);
 			}
 		}
 		LOG.info("Something went wrong\n Game: " + gameId + "\n Player: " + companionId);
-		return null;
+		return new ResponseEntity<Object>("", HttpStatus.FORBIDDEN);
 
 	}
 
