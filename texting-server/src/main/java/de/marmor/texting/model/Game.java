@@ -64,6 +64,7 @@ public class Game {
 	}
 
 	public String whoseTurnId() {
+		LOG.info(String.valueOf(whoseTurn));
 		return playersInOrder.get(whoseTurn);
 	}
 
@@ -160,6 +161,8 @@ public class Game {
 				playersInOrder.remove(companionId);
 				if (whoseTurn > index) {
 					whoseTurn--;
+				} else if(whoseTurn == nofPlayers) {
+					whoseTurn = 0;
 				}
 				return settings.removePlayer(companionId);
 			}

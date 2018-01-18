@@ -108,7 +108,7 @@ public class GameTest {
 	}
 	
 	@Test
-	public void whoseGame() {
+	public void myGameTest() {
 		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
 		Game game = new Game(settings);
 		game.getSettings().addPlayer("2", "alice");
@@ -128,5 +128,20 @@ public class GameTest {
 		
 		assertTrue(!gameStatusBob2.isMyGame());
 		assertTrue(!gameStatusAlice2.isMyGame());
+	}
+	
+	@Test
+	public void whoseTurnIndex() {
+		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
+		Game game = new Game(settings);
+		game.getSettings().addPlayer("2", "alice");
+		game.getSettings().addPlayer("3", "fu");
+		game.getSettings().addPlayer("4", "fara");
+		
+		game.start();
+		
+		GameStatus gameStatus1 = new GameStatus(game,"1");
+		
+		assertTrue(gameStatus1.getWhosTurnId().equals(game.whoseTurnId()));
 	}
 }
