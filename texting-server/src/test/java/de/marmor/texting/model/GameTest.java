@@ -1,11 +1,13 @@
 package de.marmor.texting.model;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import de.marmor.texting.rest.GameStatus;
 
 
 public class GameTest {
@@ -103,5 +105,28 @@ public class GameTest {
 		}
 		LOG.info(order);
 		LOG.info(String.valueOf(game.whoseTurnId())+" am Zug");
+	}
+	
+	@Test
+	public void whoseGame() {
+		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
+		Game game = new Game(settings);
+		game.getSettings().addPlayer("2", "alice");
+		game.getSettings().addPlayer("3", "fu");
+		game.getSettings().addPlayer("4", "fara");
+		
+		GameStatus gameStatusBob1 = new GameStatus(game,"1");
+		GameStatus gameStatusAlice1 = new GameStatus(game,"2");
+		
+		assertTrue(gameStatusBob1.isMyGame());
+		assertTrue(!gameStatusAlice1.isMyGame());
+		
+		game.start();
+		
+		GameStatus gameStatusBob2 = new GameStatus(game,"1");
+		GameStatus gameStatusAlice2 = new GameStatus(game,"2");
+		
+		assertTrue(!gameStatusBob2.isMyGame());
+		assertTrue(!gameStatusAlice2.isMyGame());
 	}
 }

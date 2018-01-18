@@ -25,14 +25,16 @@ public class Game {
 
 	// private List<StoryPiece> story;
 
-	public int getCurrentRound() {
-		return currentRound;
-	}
+	
 
 	public Game(GameSettings settings) {
 		this.settings = settings;
 	}
 
+	public int getCurrentRound() {
+		return currentRound;
+	}
+	
 	public int getStatus() {
 		return status;
 	}

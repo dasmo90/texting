@@ -25,6 +25,7 @@ public class GameStatus {
 	private int minLetters;
 	private int maxLetters;
 	private int nofRounds;
+	private boolean myGame;
 
 	public GameStatus() {
 		
@@ -36,6 +37,8 @@ public class GameStatus {
 		maxLetters = game.getSettings().getMaxLetters();
 		nofRounds = game.getSettings().getRounds();
 		status = game.getStatus();
+		// once the game started, nobody will be the owner so myGame is always false
+		myGame = game.getSettings().getOwnerId().equals(currentPlayerId);
 		
 		if(status == 0) {
 			yourTurn = false;
@@ -155,5 +158,13 @@ public class GameStatus {
 
 	public void setNofRounds(int nofRounds) {
 		this.nofRounds = nofRounds;
+	}
+
+	public boolean isMyGame() {
+		return myGame;
+	}
+
+	public void setMyGame(boolean myGame) {
+		this.myGame = myGame;
 	}
 }
