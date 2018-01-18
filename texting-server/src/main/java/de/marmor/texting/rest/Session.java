@@ -278,22 +278,21 @@ public class Session {
 	}
 
 	/**
-	 * get full information about a particular game if game doesn't exist or the
-	 * requesting companion is not in the game return null
+	 * get full information about a the game that the requesting companion is in
+	 * if requesting companion is not in a game, return HttpStatus.FORBIDDEN
 	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/game/status/poll", method = RequestMethod.GET)
 	public ResponseEntity<Object> gameStatus() {
 		String companionId = getCompanionId();
-		String gameId = getGameId();
-		LOG.info("Game: " + gameId + ", Companion: " + companionId);
-		if (games.containsKey(gameId)) {
-			if (games.get(gameId).getSettings().getPlayers().containsKey(companionId)) {
-				return new ResponseEntity<Object>(new GameStatus(games.get(gameId), companionId), HttpStatus.OK);
+		
+		for(String key : games.keySet()) {
+			if(games.get(key).getSettings().getPlayers().containsKey(companionId)) {
+				return new ResponseEntity<Object>(new GameStatus(games.get(key), companionId), HttpStatus.OK);
 			}
 		}
-		LOG.info("Something went wrong\n Game: " + gameId + "\n Player: " + companionId);
+		LOG.info("Player not in game.\n Player: " + companionId);
 		return new ResponseEntity<Object>("", HttpStatus.FORBIDDEN);
 
 	}
