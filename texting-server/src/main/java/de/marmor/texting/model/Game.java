@@ -63,6 +63,10 @@ public class Game {
 		return null;
 	}
 
+	public int getWhoseTurn() {
+		return whoseTurn;
+	}
+	
 	public String whoseTurnId() {
 		LOG.info(String.valueOf(whoseTurn));
 		return playersInOrder.get(whoseTurn);

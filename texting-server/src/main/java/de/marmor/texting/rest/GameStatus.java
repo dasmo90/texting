@@ -16,7 +16,7 @@ public class GameStatus {
 
 	private int status;
 	private boolean yourTurn;
-	private String whosTurnId;
+	private int whosTurnIndex;
 	private String shownLetters;
 	private List<String> playerNames = new LinkedList<>();
 	private int currentRound;
@@ -42,7 +42,7 @@ public class GameStatus {
 		
 		if(status == 0) {
 			yourTurn = false;
-			whosTurnId = null;
+			whosTurnIndex = -1;
 			shownLetters = null;
 			currentRound = 0;
 			story = null;
@@ -53,7 +53,7 @@ public class GameStatus {
 			}	
 		} else if(status == 1) {
 			yourTurn = Objects.equals(game.whoseTurnId(), currentPlayerId);
-			whosTurnId = game.whoseTurnId();
+			whosTurnIndex = game.getWhoseTurn();
 			shownLetters = game.getShownLetters();
 			currentRound = game.getCurrentRound();
 			story = null;
@@ -62,7 +62,7 @@ public class GameStatus {
 			}
 		} else {
 			yourTurn = false;
-			whosTurnId = null;
+			whosTurnIndex = -1;
 			shownLetters = null;
 			currentRound = game.getSettings().getRounds()+1;
 			story = game.getStoryAsList();
@@ -88,12 +88,12 @@ public class GameStatus {
 		this.yourTurn = yourTurn;
 	}
 
-	public String getWhosTurnId() {
-		return whosTurnId;
+	public int getWhosTurnIndex() {
+		return whosTurnIndex;
 	}
 
-	public void setWhosTurnId(String whosTurnId) {
-		this.whosTurnId = whosTurnId;
+	public void setWhosTurnIndex(int whosTurnIndex) {
+		this.whosTurnIndex = whosTurnIndex;
 	}
 
 	public String getShownLetters() {
