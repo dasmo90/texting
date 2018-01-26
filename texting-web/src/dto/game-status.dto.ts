@@ -3,7 +3,7 @@ export class GameStatusDto {
     public myGame: boolean;
     public status: number;
     public yourTurn: boolean;
-    public whosTurnName: string;
+    public whosTurnIndex: number;
     public shownLetters: string;
     public playerNames: string[];
     public currentRound: number;

@@ -142,6 +142,6 @@ public class GameTest {
 		
 		GameStatus gameStatus1 = new GameStatus(game,"1");
 		
-		assertTrue(gameStatus1.getWhosTurnId().equals(game.whoseTurnId()));
+		assertTrue(gameStatus1.getWhosTurnIndex() == 0);
 	}
 }
