@@ -1,3 +1,4 @@
+
 package de.marmor.texting.model;
 
 import static org.junit.Assert.assertEquals;
@@ -141,5 +142,7 @@ public class GameTest {
 		game.start();
 		
 		GameStatus gameStatus1 = new GameStatus(game,"1");
+		
+		assertTrue(gameStatus1.getWhosTurnIndex() == 0);
 	}
 }
