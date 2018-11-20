@@ -13,35 +13,16 @@ import org.slf4j.LoggerFactory;
 public class GameSettings {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GameSettings.class);
+	private String gameType;
 	private String name;
 	private String ownerId;
-	private int nofShownLetters;
-	private int nofMinLetters;
-	private int nofMaxLetters;
-	private int nofRounds;
 	private Map<String, String> players = new HashMap<String,String>();
 	private boolean empty;
 	
-	public GameSettings(String name, String companionId, int show, int wrMin, int wrMax, int rounds) {
-		// default settings if parameters are invalid
-		if(show < 0) {
-			show = 50;
-		}
-		if(wrMin < show) {
-			wrMin = show;
-		}
-		if(wrMax < wrMin) {
-			wrMax = wrMin+10;
-		}
-		if(rounds <= 0) {
-			rounds = 1;
-		}
+	public GameSettings(String name, String companionId, String gameType) {
 		
+		this.gameType = gameType;
 		this.name = name+"'s game";
-		nofShownLetters = show;
-		nofMinLetters = wrMin;
-		nofMaxLetters = wrMax;
-		nofRounds = rounds;
 		players.put(companionId, name);
 		ownerId = companionId;
 		empty = false;
@@ -61,22 +42,6 @@ public class GameSettings {
 	
 	public Map<String, String> getPlayers(){
 		return players;
-	}
-	
-	public int getMinLetters() {
-		return nofMinLetters;
-	}
-	
-	public int getMaxLetters() {
-		return nofMaxLetters;
-	}
-	
-	public int getShownLetters() {
-		return nofShownLetters;
-	}
-	
-	public int getRounds() {
-		return nofRounds;
 	}
 	
 	public void addPlayer(String newPlayerId, String newPlayerName) {
@@ -112,6 +77,14 @@ public class GameSettings {
 
 	public void forgetOwner() {
 		ownerId = "";
+	}
+
+	public String getGameType() {
+		return gameType;
+	}
+
+	public void setGameType(String gameType) {
+		this.gameType = gameType;
 	}
 	
 

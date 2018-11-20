@@ -3,6 +3,9 @@ package de.marmor.texting.rest;
 import de.marmor.texting.http.StringResponseEntity;
 import de.marmor.texting.model.Game;
 import de.marmor.texting.model.GameSettings;
+import de.marmor.texting.model.GameSettingsText;
+import de.marmor.texting.model.GameText;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,8 +124,8 @@ public class Session {
 		if (idleCompanions.containsKey(companionId)) {
 			LOG.info("Id is valid.");
 			String newGameId = UUID.randomUUID().toString();
-			GameSettings newGameSettings = new GameSettings(idleCompanions.get(companionId), companionId, shownLetters,
-					minLetters, maxLetters, rounds);
+			GameSettings newGameSettings = new GameSettingsText(idleCompanions.get(companionId), companionId, shownLetters,
+					minLetters, maxLetters, rounds, "texting");
 			games.put(newGameId, new Game(newGameSettings));
 			idleCompanions.remove(companionId);
 			return new StringResponseEntity(newGameId, HttpStatus.OK);
@@ -257,7 +260,10 @@ public class Session {
 	public boolean commitStoryPiece(@RequestParam("storypiece") String storyPiece) {
 		String companionId = getCompanionId();
 		String gameId = getGameId();
-		return games.get(gameId).commitStoryPiece(companionId, storyPiece);
+		if (games.get(gameId) instanceof GameText) {
+			return ((GameText) games.get(gameId)).commitStoryPiece(companionId, storyPiece);
+		}
+		return false;
 	}
 
 	/**

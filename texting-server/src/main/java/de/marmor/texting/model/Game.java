@@ -13,54 +13,30 @@ import org.slf4j.LoggerFactory;
 public class Game {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Game.class);
+	
 	private GameSettings settings;
-	private int status = 0; // 0: not started yet, 1:in game, 2: ended
-	private List<String> playersInOrder = new LinkedList<>();
-	private int nofPlayers = 0;
-	private String story = "";
-	private List<StoryPiece> storyAsList = new LinkedList<>();
-	private String shownLetters = "";
-	private int whoseTurn = 0;
-	private int currentRound = 0;
+	protected int status = 0; // 0: not started yet, 1:in game, 2: ended
+	protected List<String> playersInOrder = new LinkedList<>();
+	protected int nofPlayers = 0;
+	protected int whoseTurn = 0;
+	protected int currentRound = 0;
 
 	// private List<StoryPiece> story;
-
-	
 
 	public Game(GameSettings settings) {
 		this.settings = settings;
 	}
 
+	public GameSettings getSettings() {
+		return settings;
+	}
+	
 	public int getCurrentRound() {
 		return currentRound;
 	}
 	
 	public int getStatus() {
 		return status;
-	}
-
-	public String getShownLetters() {
-		if (status == 1) {
-			LOG.info("Show: |" + shownLetters + "|");
-			return shownLetters;
-		}
-		return null;
-	}
-
-	public String getStory() {
-		if (status == 2) {
-			LOG.info("Story: |" + story + "|");
-			return story;
-
-		}
-		return null;
-	}
-
-	public List<StoryPiece> getStoryAsList() {
-		if (status == 2) {
-			return storyAsList;
-		}
-		return null;
 	}
 
 	public int getWhoseTurn() {
@@ -70,10 +46,6 @@ public class Game {
 	public String whoseTurnId() {
 		LOG.info(String.valueOf(whoseTurn));
 		return playersInOrder.get(whoseTurn);
-	}
-
-	public GameSettings getSettings() {
-		return settings;
 	}
 
 	public List<String> getPlayersInOrder() {
@@ -101,54 +73,6 @@ public class Game {
 			}
 			settings.forgetOwner();
 		}
-	}
-
-	public boolean commitStoryPiece(String playerId, String storyPiece) {
-		LOG.info("Try to add something.");
-		if (status == 1 && playerId.equals(playersInOrder.get(whoseTurn))) {
-			// it's possible to write nothing!
-			if (storyPiece == null || storyPiece.isEmpty()) {
-				LOG.info("Empty string.");
-				whoseTurn = (whoseTurn + 1) % nofPlayers;
-				if (whoseTurn == 0) {
-					LOG.info("Next Round.");
-					currentRound++;
-					if (currentRound > settings.getRounds()) {
-						LOG.info("Last round finished.");
-						status = 2;
-						LOG.info("Status = 2");
-					}
-				}
-				return true;
-			}
-
-			int nofLetters = storyPiece.length();
-			LOG.info(String.valueOf(nofLetters));
-			if (nofLetters < settings.getMinLetters() || nofLetters > settings.getMaxLetters()) {
-				LOG.info("Wrong number of letters.");
-				return false;
-			} else {
-				story = story + storyPiece + " ";
-				storyAsList.add(new StoryPiece(playerId, settings.getPlayers().get(playerId), storyPiece));
-				LOG.info("Story piece added.");
-				char[] showi = new char[settings.getShownLetters()];
-				storyPiece.getChars(nofLetters - settings.getShownLetters(), nofLetters, showi, 0);
-				shownLetters = new String(showi);
-				whoseTurn = (whoseTurn + 1) % nofPlayers;
-				if (whoseTurn == 0) {
-					LOG.info("Next round.");
-					currentRound++;
-					if (currentRound > settings.getRounds()) {
-						LOG.info("Last round finished.");
-						status = 2;
-						LOG.info("Status = 2");
-					}
-				}
-				return true;
-			}
-		}
-		LOG.info("Wrong status or wrong player.");
-		return false;
 	}
 
 	public void end() {
