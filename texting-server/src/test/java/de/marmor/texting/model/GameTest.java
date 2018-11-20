@@ -141,7 +141,5 @@ public class GameTest {
 		game.start();
 		
 		GameStatus gameStatus1 = new GameStatus(game,"1");
-		
-		assertTrue(gameStatus1.getWhosTurnId().equals(game.whoseTurnId()));
 	}
 }
