@@ -17,8 +17,8 @@ public class GameTest {
 	
 	@Test
 	public void testStoryPieceAdd() {
-		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
-		Game game = new Game(settings);
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "fu");
 		
 		game.start();
@@ -44,8 +44,8 @@ public class GameTest {
 	
 	@Test
 	public void testLeaveEnterBeforeGame() {
-		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
-		Game game = new Game(settings);
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
 		game.getSettings().addPlayer("4", "fara");
@@ -64,8 +64,8 @@ public class GameTest {
 	
 	@Test
 	public void testLeaveEnterInGame() {
-		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
-		Game game = new Game(settings);
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
 		game.getSettings().addPlayer("4", "fara");
@@ -110,8 +110,8 @@ public class GameTest {
 	
 	@Test
 	public void myGameTest() {
-		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
-		Game game = new Game(settings);
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
 		game.getSettings().addPlayer("4", "fara");
@@ -133,8 +133,8 @@ public class GameTest {
 	
 	@Test
 	public void whoseTurnIndex() {
-		GameSettings settings = new GameSettings("bob", "1", 5, 6, 12,1);
-		Game game = new Game(settings);
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
 		game.getSettings().addPlayer("4", "fara");

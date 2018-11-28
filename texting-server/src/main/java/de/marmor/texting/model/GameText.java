@@ -21,6 +21,11 @@ public class GameText extends Game {
 		super(settings);
 		this.settingsText = settings;
 	}
+	
+	public GameSettingsText getSettings() {
+		return settingsText;
+	}
+	
 
 	public String getShownLetters() {
 		if (status == 1) {

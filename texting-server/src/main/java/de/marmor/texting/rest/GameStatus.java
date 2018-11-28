@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.marmor.texting.model.Game;
+import de.marmor.texting.model.GameText;
 import de.marmor.texting.model.StoryPiece;
 
 public class GameStatus {
@@ -31,7 +32,7 @@ public class GameStatus {
 		
 	}
 	
-	public GameStatus(Game game, String currentPlayerId) {
+	public GameStatus(GameText game, String currentPlayerId) {
 		nofShownLetters = game.getSettings().getShownLetters();
 		minLetters = game.getSettings().getMinLetters();
 		maxLetters = game.getSettings().getMaxLetters();

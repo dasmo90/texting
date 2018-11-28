@@ -284,7 +284,7 @@ public class Session {
 	}
 
 	/**
-	 * get full information about a the game that the requesting companion is in
+	 * get full information about the game that the requesting companion is in
 	 * if requesting companion is not in a game, return HttpStatus.FORBIDDEN
 	 * 
 	 * @return
@@ -295,7 +295,9 @@ public class Session {
 		
 		for(String key : games.keySet()) {
 			if(games.get(key).getSettings().getPlayers().containsKey(companionId)) {
-				return new ResponseEntity<Object>(new GameStatus(games.get(key), companionId), HttpStatus.OK);
+				if (games.get(key) instanceof GameText) {
+					return new ResponseEntity<Object>(new GameStatus((GameText) games.get(key), companionId), HttpStatus.OK);
+				}
 			}
 		}
 		LOG.info("Player not in game.\n Player: " + companionId);

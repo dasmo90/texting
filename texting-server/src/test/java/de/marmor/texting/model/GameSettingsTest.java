@@ -9,14 +9,14 @@ public class GameSettingsTest {
 
 	@Test
 	public void testGameName() {
-		GameSettings gameSettings = new GameSettings("bob", "1", 5, 6, 12,3);
+		GameSettings gameSettings = new GameSettingsText("bob", "1", 5, 6, 12,3,"texting");
 
 		assertEquals("bob's game", gameSettings.getName());
 	}
 
 	@Test
 	public void testPlayersCount() {
-		GameSettings gameSettings = new GameSettings("bob", "1", 5, 6, 12,3);
+		GameSettings gameSettings = new GameSettingsText("bob", "1", 5, 6, 12,3,"texting");
 		gameSettings.addPlayer("2", "Kasandra");
 		assertEquals(2, gameSettings.getPlayers().size());
 		assertEquals("Kasandra", gameSettings.getPlayers().get("2"));
