@@ -2,7 +2,9 @@ package de.marmor.texting.rest;
 
 import de.marmor.texting.http.StringResponseEntity;
 import de.marmor.texting.model.Game;
+import de.marmor.texting.model.GamePicsit;
 import de.marmor.texting.model.GameSettings;
+import de.marmor.texting.model.GameSettingsPicsit;
 import de.marmor.texting.model.GameSettingsText;
 import de.marmor.texting.model.GameText;
 
@@ -114,19 +116,28 @@ public class Session {
 	 * @param minLetters
 	 * @param maxLetters
 	 * @param rounds
+	 * @param gameType <- "texting" or "picsit"
 	 * @return game id
 	 */
 	@RequestMapping(value = "/game/new", method = RequestMethod.GET)
 	public StringResponseEntity newGame(@RequestParam("shownLetters") int shownLetters,
 			@RequestParam("minLetters") int minLetters, @RequestParam("maxLetters") int maxLetters,
-			@RequestParam("rounds") int rounds) {
+			@RequestParam("rounds") int rounds, @RequestParam("gameType") String gameType) {
 		String companionId = getCompanionId();
 		if (idleCompanions.containsKey(companionId)) {
 			LOG.info("Id is valid.");
 			String newGameId = UUID.randomUUID().toString();
 			GameSettings newGameSettings = new GameSettingsText(idleCompanions.get(companionId), companionId, shownLetters,
-					minLetters, maxLetters, rounds, "texting");
-			games.put(newGameId, new Game(newGameSettings));
+					minLetters, maxLetters, rounds, gameType);
+			if (gameType.equals("texting")) {
+				games.put(newGameId, new GameText((GameSettingsText) newGameSettings));
+			} else if (gameType.equals("picsit")) {
+				games.put(newGameId, new GamePicsit((GameSettingsPicsit) newGameSettings));
+			} else {
+				LOG.info("Game Type " + gameType + " doesn't exist.");
+				return new StringResponseEntity("", HttpStatus.FORBIDDEN);
+			}
+			
 			idleCompanions.remove(companionId);
 			return new StringResponseEntity(newGameId, HttpStatus.OK);
 		} else {
