@@ -146,6 +146,8 @@ public class Session {
 		}
 
 	}
+	
+	
 
 	private String getCompanionId() {
 		return getCookie(COOKIE_COMPANION_ID);

@@ -2,6 +2,7 @@ package de.marmor.texting.model;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,11 @@ import java.util.Map;
 public class GamePicsit extends Game {
 	
 	private GameSettingsPicsit settingsPicsit;
-	private List<Player> players = new LinkedList<>();
+	private Map<String, Player> players = new HashMap<>();
+	private Map<String,String> middle = new HashMap<>(); // die Karte ist der Key, und der player der Value
+	private List<String> pileOfCards = new LinkedList<>();
+	private int phase = -1; // -1: not started, 0: putDown, 1: choose
+	private List<String> playersInOrder = new LinkedList<>();
 	
 /*	private GameSettings settings;
 	protected int status = 0; // 0: not started yet, 1:in game, 2: ended
@@ -26,43 +31,131 @@ public class GamePicsit extends Game {
 	public GameSettingsPicsit getSettings() {
 		return settingsPicsit;
 	}
+	
+	public boolean allPlayersReadyWith(int phase) {
+		for(String playerKey : players.keySet()) {
+			if(players.get(playerKey).getPhase() == phase) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean putAPicDown(String playerKey, String card) {
+		if (status != 1) return false;
+		if (phase != 0) return false;
+		if (players.get(playerKey).putAPicDown(card)) {
+			middle.put(playerKey,card);
+			if(allPlayersReadyWith(0)) {
+				phase = 1;
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean pickAPic(String playerKey, String card) {
+		if (status != 1) return false;
+		// Card must be in the middle, player can't pick himself, pick phase
+		if (middle.containsKey(card) && !middle.get(card).equals(playerKey) && phase == 1) {
+			Player pickedPlayer = players.get(middle.get(card));
+			if (players.get(playerKey).pickAPic(pickedPlayer)) {
+				if (allPlayersReadyWith(1)) {
+					distributePoints();
+					prepareNextRound();
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 
+	private void distributePoints() {
+		Player whoseTurnPlayer = players.get(playersInOrder.get(whoseTurn));
+		// everyone picked the right card
+		if (whoseTurnPlayer.collectedPicks() == 0 || whoseTurnPlayer.collectedPicks() == nofPlayers-1) {
+			for (String playerKey : players.keySet()) {
+				players.get(playerKey).addToScore(2);
+			}
+			whoseTurnPlayer.addToScore(-2);
+			
+		} else { // not everyone picked the right card
+			whoseTurnPlayer.addToScore(3);
+			
+			for (String playerKey : players.keySet()) {
+				Player p = players.get(playerKey);
+				if (!p.getMyTurn()) {
+					if (p.getPickedCorrectly()) {
+						p.addToScore(3);
+					}
+					p.addToScore(p.collectedPicks());
+				}
+			}
+		}
+	}
+	
+	private void prepareNextRound() {
+		phase = 0;
+		// set whose turn it is now
+		players.get(playersInOrder.get(whoseTurn)).setMyTurn(false);
+		whoseTurn = (whoseTurn+1)%nofPlayers;
+		players.get(playersInOrder.get(whoseTurn)).setMyTurn(true);
+		
+		for (int i = 0; i < nofPlayers; i++) {
+			Player p = players.get(playersInOrder.get(i));
+			if (!p.drawCard(pileOfCards)) {
+				end();
+				
+			} else {
+				p.reset();
+			}
+			
+		}
+	}
+	
 	@Override
 	public void start() {
-		if (status == 0) {
+		int cardsNeeded = settingsPicsit.getNofCardsOnHand()*settingsPicsit.getPlayers().size();
+		if (status == 0 && cardsNeeded <= settingsPicsit.getPicSet().size()) {
 			status = 1;
+			phase = 0;
 			
 			currentRound = 1;
 			nofPlayers = settingsPicsit.getPlayers().size();
+			pileOfCards.addAll(settingsPicsit.getPicSet());
+			Collections.shuffle(pileOfCards);
+			
 			Integer[] order = new Integer[nofPlayers];
 			for (int i = 0; i < nofPlayers; i++) {
 				order[i] = i;
 			}
 			Collections.shuffle(Arrays.asList(order));
 
-			List<Player> p = new LinkedList<Player>();
+			List<String> p = new LinkedList<String>();
 			for (String key : settingsPicsit.getPlayers().keySet()) {
-				p.add(new Player(key));
+				p.add(key);
+				players.put(key, new Player());
 			}
 			for (int i = 0; i < nofPlayers; i++) {
-				players.add(p.get(order[i]));
+				String playerKey = p.get(order[i]);
+				playersInOrder.add(playerKey);
+				for (int j = 0; j < settingsPicsit.getNofCardsOnHand(); j++) {
+					players.get(playerKey).drawCard(pileOfCards);
+				}
 			}
+			players.get(playersInOrder.get(0)).setTurn(true);
 			settingsPicsit.forgetOwner();
 		}
 	}
 
 	@Override
 	public String whoseTurnId() {
-		return players.get(whoseTurn).getKey();
+		return playersInOrder.get(whoseTurn);
 	}
 
 	@Override
 	public List<String> getPlayersInOrder() {
-		List<String> playerIds = new LinkedList<String>();
-		for (int i = 0; i < nofPlayers; i++) {
-			playerIds.add(players.get(i).getKey());
-		}
-		return playerIds;
+		return playersInOrder;
 	}
 
 	@Override

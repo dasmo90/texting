@@ -8,23 +8,32 @@ public class Player {
 	private List<String> cardsOnHand = new LinkedList<String>();
 	private boolean myTurn = false;
 	private int score = 0;
-	private String key;
+	private int phase = 0;
+	private boolean pickedCorrectly = false;
+	private int nofPicksForMe = 0;
 	
-	public Player(String key) {
-		this.key = key;
+	public Player() {
 	}
 	
-	public List<String> drawCard(List<String> pileOfCards) {
-		if (pileOfCards.size() <= 0 || !myTurn) {
-			return pileOfCards;
+	public void setPickedCorrectly(boolean c) {
+		pickedCorrectly = c;
+	}
+	
+	public boolean getPickedCorrectly() {
+		return pickedCorrectly;
+	}
+	
+	public int getPhase() {
+		return phase;
+	}
+	
+	public boolean drawCard(List<String> pileOfCards) {
+		if (pileOfCards.size() <= 0) {
+			return false;
 		}
 		cardsOnHand.add(pileOfCards.get(0));
 		pileOfCards.remove(0);
-		return pileOfCards;
-	}
-	
-	public String getKey() {
-		return key;
+		return true;
 	}
 	
 	public void setTurn(boolean turn) {
@@ -38,5 +47,55 @@ public class Player {
 	public void addToScore(int add) {
 		score += add;
 	}
+
+	public boolean putAPicDown(String card) {
+		if (phase != 0) {
+			return false;
+		}
+		if (!cardsOnHand.contains(card)) {
+			return false;
+		}
+		cardsOnHand.remove(card);
+		// if it's your turn, skip the pick phase
+		if(myTurn) {
+			phase = 2;
+		} else {
+			phase = 1;
+		}
+		return true;
+	}
 	
+	public boolean pickAPic(Player pickedPlayer) {
+		if (phase != 1) {
+			return false;
+		}
+		pickedPlayer.gotPicked();
+		if (pickedPlayer.getMyTurn()) {
+			pickedCorrectly = true;
+		}
+		phase = 2;
+		return true;
+	}
+
+	public boolean getMyTurn() {
+		return myTurn;
+	}
+	
+	public void setMyTurn(boolean turn) {
+		myTurn = turn;
+	}
+
+	public void gotPicked() {
+		nofPicksForMe++;
+	}
+	
+	public int collectedPicks() {
+		return nofPicksForMe;
+	}
+	
+	public void reset() {
+		phase = 0;
+		nofPicksForMe = 0;
+		pickedCorrectly = false;
+	}
 }
