@@ -6,7 +6,7 @@ public class GameSettingsPicsit extends GameSettings {
 	private int nofCardsOnHand;
 	
 	public GameSettingsPicsit(String name, String companionId, int pics, int nofCardsOnHand) {
-		super(name, companionId);
+		super(name, companionId,"Picsit");
 		this.picSetSize = pics;
 		this.nofCardsOnHand = nofCardsOnHand;
 	}

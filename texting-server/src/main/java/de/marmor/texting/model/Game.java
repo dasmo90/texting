@@ -14,7 +14,6 @@ public abstract class Game {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Game.class);
 	
-	private GameSettings settings;
 	protected int status = 0; // 0: not started yet, 1:in game, 2: ended
 	protected int nofPlayers = 0;
 	protected int whoseTurn = 0;
@@ -23,7 +22,6 @@ public abstract class Game {
 	// private List<StoryPiece> story;
 
 	public Game(GameSettings settings) {
-		this.settings = settings;
 	}
 
 	public abstract GameSettings getSettings();

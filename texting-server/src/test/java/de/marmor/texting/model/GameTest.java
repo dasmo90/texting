@@ -17,7 +17,7 @@ public class GameTest {
 	
 	@Test
 	public void testStoryPieceAdd() {
-		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1);
 		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "fu");
 		
@@ -44,7 +44,7 @@ public class GameTest {
 	
 	@Test
 	public void testLeaveEnterBeforeGame() {
-		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1);
 		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
@@ -64,7 +64,7 @@ public class GameTest {
 	
 	@Test
 	public void testLeaveEnterInGame() {
-		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1);
 		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
@@ -110,7 +110,7 @@ public class GameTest {
 	
 	@Test
 	public void myGameTest() {
-		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1);
 		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");
@@ -133,7 +133,7 @@ public class GameTest {
 	
 	@Test
 	public void whoseTurnIndex() {
-		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1, "texting");
+		GameSettingsText settings = new GameSettingsText("bob", "1", 5, 6, 12, 1);
 		GameText game = new GameText(settings);
 		game.getSettings().addPlayer("2", "alice");
 		game.getSettings().addPlayer("3", "fu");

@@ -3,7 +3,6 @@ package de.marmor.texting.rest;
 import de.marmor.texting.http.StringResponseEntity;
 import de.marmor.texting.model.Game;
 import de.marmor.texting.model.GamePicsit;
-import de.marmor.texting.model.GameSettings;
 import de.marmor.texting.model.GameSettingsPicsit;
 import de.marmor.texting.model.GameSettingsText;
 import de.marmor.texting.model.GameText;
@@ -65,7 +64,7 @@ public class Session {
 
 	
 	/**
-	 * a player who logs out, leaves (or shuts, if game owner) the game he or she might be in
+	 * a player who logs out, leaves (or shuts, if game owner) the game, further he or she might be in
 	 * and is removed from idleCompanions
 	 * 
 	 * @return boolean if logout was successful
@@ -108,6 +107,7 @@ public class Session {
 	}
 
 	/**
+	 * NEW GAME FOR TEXTING
 	 * whoever makes a new game is the game owner, who is the only one allowed to
 	 * start that game later on one can only participate in one game at a time to
 	 * participate it is necessary to be logged in
@@ -142,6 +142,7 @@ public class Session {
 	
 	
 	/**
+	 * NEW GAME FOR PICSIT
 	 * whoever makes a new game is the game owner, who is the only one allowed to
 	 * start that game later on one can only participate in one game at a time to
 	 * participate it is necessary to be logged in
@@ -246,7 +247,7 @@ public class Session {
 
 	/**
 	 * only the game owner can shut his game, it also can only be shut, if it hasn't
-	 * started yet all participants will be removed from the game and can
+	 * started yet, all participants will be removed from the game and can
 	 * participate in a new game
 	 * 
 	 * @return true if game was shut successfully, else false
@@ -266,6 +267,7 @@ public class Session {
 		return false;
 	}
 
+	
 	/**
 	 * only the game owner can start his game, once started, nobody can enter the
 	 * game any longer
@@ -286,7 +288,9 @@ public class Session {
 		return false;
 	}
 
+	
 	/**
+	 * ONLY FOR TEXTING
 	 * A story piece can only be committed, when the game is in status 1 (started
 	 * and not ended yet) Only the player who's turn it is can commit a story piece
 	 * 
@@ -305,7 +309,7 @@ public class Session {
 
 	/**
 	 * 
-	 * @return
+	 * @return gameTeasers (List of GameTeaser Objects)
 	 */
 	@RequestMapping(value = "/games/unstarted/poll", method = RequestMethod.GET)
 	public List<GameTeaser> games() {
@@ -320,6 +324,7 @@ public class Session {
 		return gameTeasers;
 	}
 
+	
 	/**
 	 * get full information about the game that the requesting companion is in
 	 * if requesting companion is not in a game, return HttpStatus.FORBIDDEN
@@ -333,7 +338,9 @@ public class Session {
 		for(String key : games.keySet()) {
 			if(games.get(key).getSettings().getPlayers().containsKey(companionId)) {
 				if (games.get(key) instanceof GameText) {
-					return new ResponseEntity<Object>(new GameStatus((GameText) games.get(key), companionId), HttpStatus.OK);
+					return new ResponseEntity<Object>(new GameStatusText((GameText) games.get(key), companionId), HttpStatus.OK);
+				} else if (games.get(key) instanceof GamePicsit) {
+					// TODO
 				}
 			}
 		}

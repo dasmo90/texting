@@ -164,8 +164,22 @@ public class GamePicsit extends Game {
 
 	@Override
 	public Map<String, String> removeFromRunningGame(String companionId) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, String> playersThatLeft = new HashMap<String, String>();
+		if (status != 0) {
+			if (playersInOrder.contains(companionId)) {
+				nofPlayers--;
+				players.remove(companionId);
+				int index = playersInOrder.indexOf(companionId);
+				playersInOrder.remove(companionId);
+				if (whoseTurn > index) {
+					whoseTurn--;
+				} else if(whoseTurn == nofPlayers) {
+					whoseTurn = 0;
+				}
+				return settingsPicsit.removePlayer(companionId);
+			}
+		}
+		return playersThatLeft;
 	}
 	
 

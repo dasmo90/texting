@@ -18,9 +18,9 @@ public abstract class GameSettings {
 	private Map<String, String> players = new HashMap<String,String>();
 	private boolean empty;
 	
-	public GameSettings(String name, String companionId) {
+	public GameSettings(String name, String companionId, String gameType) {
 		
-		this.name = name+"'s game";
+		this.name = name+"'s game ("+gameType+")";
 		players.put(companionId, name);
 		ownerId = companionId;
 		empty = false;

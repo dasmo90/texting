@@ -17,7 +17,7 @@ public class GameSettingsText extends GameSettings{
 	
 	public GameSettingsText(String name, String companionId, int show, int wrMin, int wrMax, int rounds) {
 		// default settings if parameters are invalid
-		super(name, companionId);
+		super(name, companionId,"Texting");
 		
 		if(show < 0) {
 			show = 50;
