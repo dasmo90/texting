@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Player {
 	
-	private List<String> cardsOnHand = new LinkedList<String>();
+	private List<Integer> cardsOnHand = new LinkedList<>();
 	private boolean myTurn = false;
 	private int score = 0;
 	private int phase = 0;
@@ -27,7 +27,7 @@ public class Player {
 		return phase;
 	}
 	
-	public boolean drawCard(List<String> pileOfCards) {
+	public boolean drawCard(List<Integer> pileOfCards) {
 		if (pileOfCards.size() <= 0) {
 			return false;
 		}
@@ -48,14 +48,14 @@ public class Player {
 		score += add;
 	}
 
-	public boolean putAPicDown(String card) {
+	public boolean putAPicDown(Integer card) {
 		if (phase != 0) {
 			return false;
 		}
 		if (!cardsOnHand.contains(card)) {
 			return false;
 		}
-		cardsOnHand.remove(card);
+		cardsOnHand.remove(Integer.valueOf(card));
 		// if it's your turn, skip the pick phase
 		if(myTurn) {
 			phase = 2;

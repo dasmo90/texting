@@ -10,18 +10,16 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by mbuerger on 18.12.2017.
  */
-public class GameSettings {
+public abstract class GameSettings {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GameSettings.class);
-	private String gameType;
 	private String name;
 	private String ownerId;
 	private Map<String, String> players = new HashMap<String,String>();
 	private boolean empty;
 	
-	public GameSettings(String name, String companionId, String gameType) {
+	public GameSettings(String name, String companionId) {
 		
-		this.gameType = gameType;
 		this.name = name+"'s game";
 		players.put(companionId, name);
 		ownerId = companionId;
@@ -78,14 +76,5 @@ public class GameSettings {
 	public void forgetOwner() {
 		ownerId = "";
 	}
-
-	public String getGameType() {
-		return gameType;
-	}
-
-	public void setGameType(String gameType) {
-		this.gameType = gameType;
-	}
-	
 
 }

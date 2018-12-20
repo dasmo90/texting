@@ -116,27 +116,51 @@ public class Session {
 	 * @param minLetters
 	 * @param maxLetters
 	 * @param rounds
-	 * @param gameType <- "texting" or "picsit"
 	 * @return game id
 	 */
 	@RequestMapping(value = "/game/new", method = RequestMethod.GET)
 	public StringResponseEntity newGame(@RequestParam("shownLetters") int shownLetters,
 			@RequestParam("minLetters") int minLetters, @RequestParam("maxLetters") int maxLetters,
-			@RequestParam("rounds") int rounds, @RequestParam("gameType") String gameType) {
+			@RequestParam("rounds") int rounds) {
 		String companionId = getCompanionId();
 		if (idleCompanions.containsKey(companionId)) {
 			LOG.info("Id is valid.");
 			String newGameId = UUID.randomUUID().toString();
-			GameSettings newGameSettings = new GameSettingsText(idleCompanions.get(companionId), companionId, shownLetters,
-					minLetters, maxLetters, rounds, gameType);
-			if (gameType.equals("texting")) {
-				games.put(newGameId, new GameText((GameSettingsText) newGameSettings));
-			} else if (gameType.equals("picsit")) {
-				games.put(newGameId, new GamePicsit((GameSettingsPicsit) newGameSettings));
-			} else {
-				LOG.info("Game Type " + gameType + " doesn't exist.");
-				return new StringResponseEntity("", HttpStatus.FORBIDDEN);
-			}
+			GameSettingsText newGameSettings = new GameSettingsText(idleCompanions.get(companionId), companionId, shownLetters,
+					minLetters, maxLetters, rounds);
+			
+			games.put(newGameId, new GameText(newGameSettings));
+			
+			idleCompanions.remove(companionId);
+			return new StringResponseEntity(newGameId, HttpStatus.OK);
+		} else {
+			LOG.info("Id is invalid: " + companionId);
+			return new StringResponseEntity("", HttpStatus.FORBIDDEN);
+		}
+
+	}
+	
+	
+	/**
+	 * whoever makes a new game is the game owner, who is the only one allowed to
+	 * start that game later on one can only participate in one game at a time to
+	 * participate it is necessary to be logged in
+	 * 
+	 * @param nofCardsInPile 
+	 * @param nofCardsOnHand
+	 * @return game id
+	 */
+	@RequestMapping(value = "/game/new", method = RequestMethod.GET)
+	public StringResponseEntity newGame(@RequestParam("nofCardsInPile") int nofCardsInPile,
+			@RequestParam("nofCardsOnHand") int nofCardsOnHand) {
+		String companionId = getCompanionId();
+		if (idleCompanions.containsKey(companionId)) {
+			LOG.info("Id is valid.");
+			String newGameId = UUID.randomUUID().toString();
+			GameSettingsPicsit newGameSettings = new GameSettingsPicsit(idleCompanions.get(companionId), companionId,
+					nofCardsInPile, nofCardsOnHand);
+			
+			games.put(newGameId, new GamePicsit(newGameSettings));
 			
 			idleCompanions.remove(companionId);
 			return new StringResponseEntity(newGameId, HttpStatus.OK);

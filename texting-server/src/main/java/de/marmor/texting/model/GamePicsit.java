@@ -11,8 +11,8 @@ public class GamePicsit extends Game {
 	
 	private GameSettingsPicsit settingsPicsit;
 	private Map<String, Player> players = new HashMap<>();
-	private Map<String,String> middle = new HashMap<>(); // die Karte ist der Key, und der player der Value
-	private List<String> pileOfCards = new LinkedList<>();
+	private Map<Integer,String> middle = new HashMap<>(); // die Karte ist der Key, und der player der Value
+	private List<Integer> pileOfCards = new LinkedList<>();
 	private int phase = -1; // -1: not started, 0: putDown, 1: choose
 	private List<String> playersInOrder = new LinkedList<>();
 	
@@ -41,11 +41,11 @@ public class GamePicsit extends Game {
 		return true;
 	}
 	
-	public boolean putAPicDown(String playerKey, String card) {
+	public boolean putAPicDown(String playerKey, int card) {
 		if (status != 1) return false;
 		if (phase != 0) return false;
 		if (players.get(playerKey).putAPicDown(card)) {
-			middle.put(playerKey,card);
+			middle.put(card,playerKey);
 			if(allPlayersReadyWith(0)) {
 				phase = 1;
 			}
@@ -54,7 +54,7 @@ public class GamePicsit extends Game {
 		return false;
 	}
 	
-	public boolean pickAPic(String playerKey, String card) {
+	public boolean pickAPic(String playerKey, int card) {
 		if (status != 1) return false;
 		// Card must be in the middle, player can't pick himself, pick phase
 		if (middle.containsKey(card) && !middle.get(card).equals(playerKey) && phase == 1) {
@@ -116,13 +116,17 @@ public class GamePicsit extends Game {
 	@Override
 	public void start() {
 		int cardsNeeded = settingsPicsit.getNofCardsOnHand()*settingsPicsit.getPlayers().size();
-		if (status == 0 && cardsNeeded <= settingsPicsit.getPicSet().size()) {
+		
+		if (status == 0 && cardsNeeded <= settingsPicsit.getPicSetSize()) {
 			status = 1;
 			phase = 0;
 			
 			currentRound = 1;
 			nofPlayers = settingsPicsit.getPlayers().size();
-			pileOfCards.addAll(settingsPicsit.getPicSet());
+			
+			for (int i = 0; i < settingsPicsit.getPicSetSize(); i++) {
+				pileOfCards.add(Integer.valueOf(i));
+			}
 			Collections.shuffle(pileOfCards);
 			
 			Integer[] order = new Integer[nofPlayers];

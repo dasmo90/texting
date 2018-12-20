@@ -1,21 +1,18 @@
 package de.marmor.texting.model;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class GameSettingsPicsit extends GameSettings {
-
-	private List<String> picSet = new LinkedList<String>();
+	
+	private int picSetSize;
 	private int nofCardsOnHand;
 	
-	public GameSettingsPicsit(String name, String companionId, String gameType, LinkedList<String> pics, int nofCardsOnHand) {
-		super(name, companionId, gameType);
-		this.picSet = pics;
+	public GameSettingsPicsit(String name, String companionId, int pics, int nofCardsOnHand) {
+		super(name, companionId);
+		this.picSetSize = pics;
 		this.nofCardsOnHand = nofCardsOnHand;
 	}
 
-	public List<String> getPicSet() {
-		return picSet;
+	public /*List<String>*/int getPicSetSize() {
+		return picSetSize;
 	}
 	
 	public int getNofCardsOnHand() {
