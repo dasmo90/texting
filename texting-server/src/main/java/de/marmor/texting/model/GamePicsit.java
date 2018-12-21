@@ -16,12 +16,6 @@ public class GamePicsit extends Game {
 	private int phase = -1; // -1: not started, 0: putDown, 1: choose
 	private List<String> playersInOrder = new LinkedList<>();
 	
-/*	private GameSettings settings;
-	protected int status = 0; // 0: not started yet, 1:in game, 2: ended
-	protected List<String> playersInOrder = new LinkedList<>();
-	protected int nofPlayers = 0;
-	protected int whoseTurn = 0;
-	protected int currentRound = 0;*/
 	
 	public GamePicsit(GameSettingsPicsit settings) {
 		super(settings);
@@ -32,7 +26,15 @@ public class GamePicsit extends Game {
 		return settingsPicsit;
 	}
 	
-	public boolean allPlayersReadyWith(int phase) {
+	public Player getCertainPlayer(String playerKey) {
+		return players.get(playerKey);
+	}
+	
+	public int getPhase() {
+		return phase;
+	}
+	
+	private boolean allPlayersReadyWith(int phase) {
 		for(String playerKey : players.keySet()) {
 			if(players.get(playerKey).getPhase() == phase) {
 				return false;
@@ -104,6 +106,7 @@ public class GamePicsit extends Game {
 		for (int i = 0; i < nofPlayers; i++) {
 			Player p = players.get(playersInOrder.get(i));
 			if (!p.drawCard(pileOfCards)) {
+				phase = -1;
 				end();
 				
 			} else {

@@ -306,6 +306,53 @@ public class Session {
 		}
 		return false;
 	}
+	
+	
+	/**
+	 * ONLY FOR PICSIT
+	 * A card can only be put down, when the game is in status 1 and phase 0 
+	 * player also has to be in phase 0
+	 * the card that is put down must be in the players hand
+	 * the order in which the players put down a card doesn't matter
+	 * every player has to put down a card before the next phase can start
+	 * 
+	 * @param card to be put into the middle
+	 * @return true if action was successful
+	 */
+	@RequestMapping(value = "/game/wofürwarnochmaldieserPfad?", method = RequestMethod.GET)
+	public boolean putAPicDown(@RequestParam("card") int card) {
+		String companionId = getCompanionId();
+		String gameId = getGameId();
+		if (games.get(gameId) instanceof GamePicsit) {
+			return ((GamePicsit) games.get(gameId)).putAPicDown(companionId, card);
+		}
+		return false;
+	}
+	
+	/**
+	 * ONLY FOR PICSIT
+	 * A card can only be picked, when the game is in status 1 and phase 1 
+	 * player also has to be in phase 1
+	 * the card that is picked must be in the middle and musn't be the one the
+	 * player put down himself
+	 * the order in which the players put down a card doesn't matter
+	 * the player whose turn it can't pick a card
+	 * when everybody picked a card the new scores are calculated for everyone and
+	 * one card is drawn by everybody and the game returns to phase 0
+	 * 
+	 * @param card to be put into the middle
+	 * @return true if action was successful
+	 */
+	@RequestMapping(value = "/game/wofürwarnochmaldieserPfad?", method = RequestMethod.GET)
+	public boolean pickAPic(@RequestParam("card") int card) {
+		String companionId = getCompanionId();
+		String gameId = getGameId();
+		if (games.get(gameId) instanceof GamePicsit) {
+			return ((GamePicsit) games.get(gameId)).pickAPic(companionId, card);
+		}
+		return false;
+	}
+	
 
 	/**
 	 * 
@@ -329,6 +376,9 @@ public class Session {
 	 * get full information about the game that the requesting companion is in
 	 * if requesting companion is not in a game, return HttpStatus.FORBIDDEN
 	 * 
+	 * ich muss noch wissen, welche informationen für picsit benötigt werden
+	 * im moment gibt es: myScore (eigene Punkte), gamePhase, myPhase, status, yourTurn, whoseTurnIndex, playerNames und myGame
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/game/status/poll", method = RequestMethod.GET)
@@ -340,7 +390,7 @@ public class Session {
 				if (games.get(key) instanceof GameText) {
 					return new ResponseEntity<Object>(new GameStatusText((GameText) games.get(key), companionId), HttpStatus.OK);
 				} else if (games.get(key) instanceof GamePicsit) {
-					// TODO
+					return new ResponseEntity<Object>(new GameStatusPicsit((GamePicsit) games.get(key), companionId), HttpStatus.OK);
 				}
 			}
 		}
