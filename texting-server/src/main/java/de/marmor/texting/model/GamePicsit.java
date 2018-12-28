@@ -7,7 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.marmor.texting.rest.GameStatusText;
+
 public class GamePicsit extends Game {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(GamePicsit.class);
 	
 	private GameSettingsPicsit settingsPicsit;
 	private Map<String, Player> players = new HashMap<>();
@@ -53,6 +60,7 @@ public class GamePicsit extends Game {
 			return false;
 		}
 		if(players.get(playerKey).putAPicDown(card)) {
+			LOG.info("Card has been put down.");
 			middle.put(card,playerKey);
 			this.title = title;
 			return true;

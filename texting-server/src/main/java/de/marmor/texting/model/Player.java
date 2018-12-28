@@ -3,7 +3,14 @@ package de.marmor.texting.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.marmor.texting.rest.GameStatusText;
+
 public class Player {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(Player.class);
 	
 	private List<Integer> cardsOnHand = new LinkedList<>();
 	private boolean myTurn = false;
@@ -13,6 +20,10 @@ public class Player {
 	private int nofPicksForMe = 0;
 	
 	public Player() {
+	}
+	
+	public int getFirstCardOnHand() {
+		return cardsOnHand.get(0);
 	}
 	
 	public void setPickedCorrectly(boolean c) {
@@ -53,6 +64,7 @@ public class Player {
 			return false;
 		}
 		if (!cardsOnHand.contains(card)) {
+			LOG.info("Card not on hand.");
 			return false;
 		}
 		cardsOnHand.remove(Integer.valueOf(card));
