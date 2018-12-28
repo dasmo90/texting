@@ -15,6 +15,7 @@ public class GamePicsit extends Game {
 	private List<Integer> pileOfCards = new LinkedList<>();
 	private int phase = -1; // -1: not started, 0: putDown, 1: choose
 	private List<String> playersInOrder = new LinkedList<>();
+	private String title = "";
 	
 	
 	public GamePicsit(GameSettingsPicsit settings) {
@@ -43,9 +44,24 @@ public class GamePicsit extends Game {
 		return true;
 	}
 	
+	
+	public boolean decideTitleForPic(String playerKey, int card, String title) {
+		if(status != 1 || phase != 0 || !playerKey.equals(playersInOrder.get(whoseTurn))) {
+			return false;
+		}
+		if(players.get(playerKey).putAPicDown(card)) {
+			middle.put(card,playerKey);
+			this.title = title;
+			return true;
+		}
+		return false;
+	}
+	
 	public boolean putAPicDown(String playerKey, int card) {
-		if (status != 1) return false;
-		if (phase != 0) return false;
+		if (status != 1 || phase != 0 || playerKey.equals(playersInOrder.get(whoseTurn)) 
+				|| players.get(playersInOrder.get(whoseTurn)).getPhase() == 0) {
+			return false;
+		}
 		if (players.get(playerKey).putAPicDown(card)) {
 			middle.put(card,playerKey);
 			if(allPlayersReadyWith(0)) {
@@ -102,6 +118,7 @@ public class GamePicsit extends Game {
 		players.get(playersInOrder.get(whoseTurn)).setMyTurn(false);
 		whoseTurn = (whoseTurn+1)%nofPlayers;
 		players.get(playersInOrder.get(whoseTurn)).setMyTurn(true);
+		title = "";
 		
 		for (int i = 0; i < nofPlayers; i++) {
 			Player p = players.get(playersInOrder.get(i));
@@ -185,5 +202,30 @@ public class GamePicsit extends Game {
 		return playersThatLeft;
 	}
 	
-
+	public Map<String,Integer> getScores() {
+		Map<String,Integer> scores = new HashMap<String,Integer>();
+		
+		for(String key : players.keySet()) {
+			scores.put(key, players.get(key).getScore());
+		}
+		return scores;
+	}
+	
+	public Map<String,Integer> getMiddle() {
+		Map<String,Integer> mid = new HashMap<String,Integer>();
+		
+		for (Integer key : middle.keySet()) {
+			mid.put(middle.get(key), key);
+		}
+		
+		return mid;
+	}
+	
+	public List<Integer> getPileOfCards() {
+		return pileOfCards;
+	}
+	
+	public String getTitle() {
+		return title;
+	}
 }

@@ -151,7 +151,7 @@ public class Session {
 	 * @param nofCardsOnHand
 	 * @return game id
 	 */
-	@RequestMapping(value = "/game/new", method = RequestMethod.GET)
+	@RequestMapping(value = "/game/newP", method = RequestMethod.GET)
 	public StringResponseEntity newGame(@RequestParam("nofCardsInPile") int nofCardsInPile,
 			@RequestParam("nofCardsOnHand") int nofCardsOnHand) {
 		String companionId = getCompanionId();
@@ -310,10 +310,12 @@ public class Session {
 	
 	/**
 	 * ONLY FOR PICSIT
+	 * The Player whose turn it is cannot just put a pic down, he has to use the method decideTitleForPic()
 	 * A card can only be put down, when the game is in status 1 and phase 0 
 	 * player also has to be in phase 0
 	 * the card that is put down must be in the players hand
-	 * the order in which the players put down a card doesn't matter
+	 * the order in which the players put down a card doesn't matter but they can only put down a card after
+	 * the player whose turn it is has chosen a title
 	 * every player has to put down a card before the next phase can start
 	 * 
 	 * @param card to be put into the middle
@@ -328,6 +330,28 @@ public class Session {
 		}
 		return false;
 	}
+	
+	/**
+	 * ONLY FOR PICSIT
+	 * only the player whose turn it is can use this method
+	 * game has to be in status 1 and phase 0 
+	 * player also has to be in phase 0
+	 * the card the title is chosen for is put into the middle, so
+	 * the card must be in the players hand
+	 * 
+	 * @param card to be put into the middle
+	 * @return true if action was successful
+	 */
+	@RequestMapping(value = "/game/wofürwarnochmaldieserPfad?", method = RequestMethod.GET)
+	public boolean decideTitleForPic(@RequestParam("card") int card, @RequestParam("title") String title) {
+		String companionId = getCompanionId();
+		String gameId = getGameId();
+		if (games.get(gameId) instanceof GamePicsit) {
+			return ((GamePicsit) games.get(gameId)).decideTitleForPic(companionId, card, title);
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * ONLY FOR PICSIT
@@ -375,9 +399,6 @@ public class Session {
 	/**
 	 * get full information about the game that the requesting companion is in
 	 * if requesting companion is not in a game, return HttpStatus.FORBIDDEN
-	 * 
-	 * ich muss noch wissen, welche informationen für picsit benötigt werden
-	 * im moment gibt es: myScore (eigene Punkte), gamePhase, myPhase, status, yourTurn, whoseTurnIndex, playerNames und myGame
 	 * 
 	 * @return
 	 */

@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.marmor.texting.model.Game;
-import de.marmor.texting.model.GameText;
-import de.marmor.texting.model.StoryPiece;
 
 public class GameStatus {
 
