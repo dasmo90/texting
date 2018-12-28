@@ -152,7 +152,7 @@ public class GamePicsit extends Game {
 	public void start() {
 		int cardsNeeded = settingsPicsit.getNofCardsOnHand()*settingsPicsit.getPlayers().size();
 		
-		if (status == 0 && cardsNeeded <= settingsPicsit.getPicSetSize()) {
+		if (status == 0 && cardsNeeded <= settingsPicsit.getPicSetSize() && settingsPicsit.getPlayers().size() > 1) {
 			status = 1;
 			phase = 0;
 			
