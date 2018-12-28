@@ -2,6 +2,7 @@
 package de.marmor.texting.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.marmor.texting.rest.GameStatus;
+import de.marmor.texting.rest.GameStatusText;
 
 
 public class GameTest {
@@ -116,16 +118,16 @@ public class GameTest {
 		game.getSettings().addPlayer("3", "fu");
 		game.getSettings().addPlayer("4", "fara");
 		
-		GameStatus gameStatusBob1 = new GameStatus(game,"1");
-		GameStatus gameStatusAlice1 = new GameStatus(game,"2");
+		GameStatus gameStatusBob1 = new GameStatusText(game,"1");
+		GameStatus gameStatusAlice1 = new GameStatusText(game,"2");
 		
 		assertTrue(gameStatusBob1.isMyGame());
 		assertTrue(!gameStatusAlice1.isMyGame());
 		
 		game.start();
 		
-		GameStatus gameStatusBob2 = new GameStatus(game,"1");
-		GameStatus gameStatusAlice2 = new GameStatus(game,"2");
+		GameStatus gameStatusBob2 = new GameStatusText(game,"1");
+		GameStatus gameStatusAlice2 = new GameStatusText(game,"2");
 		
 		assertTrue(!gameStatusBob2.isMyGame());
 		assertTrue(!gameStatusAlice2.isMyGame());
@@ -141,8 +143,21 @@ public class GameTest {
 		
 		game.start();
 		
-		GameStatus gameStatus1 = new GameStatus(game,"1");
+		GameStatus gameStatus1 = new GameStatusText(game,"1");
 		
 		assertTrue(gameStatus1.getWhosTurnIndex() == 0);
+	}
+	
+	@Test
+	public void testPicsitStart() {
+		GameSettingsPicsit set = new GameSettingsPicsit("Carl", "1", 80, 6, true);
+		GamePicsit game = new GamePicsit(set);
+		game.getSettings().addPlayer("2", "Rumpumpel");
+		game.getSettings().addPlayer("3", "Carla");
+		game.getSettings().addPlayer("4", "Abraxas");
+		
+		game.start();
+		assertEquals(80-(6*4),game.getPileOfCards().size());
+		
 	}
 }

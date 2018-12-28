@@ -16,11 +16,13 @@ public class GamePicsit extends Game {
 	private int phase = -1; // -1: not started, 0: putDown, 1: choose
 	private List<String> playersInOrder = new LinkedList<>();
 	private String title = "";
+	private boolean typeTitle = false;
 	
 	
 	public GamePicsit(GameSettingsPicsit settings) {
 		super(settings);
 		this.settingsPicsit = settings;
+		this.typeTitle = settings.getTypeTitle();
 	}
 
 	public GameSettingsPicsit getSettings() {
@@ -46,6 +48,7 @@ public class GamePicsit extends Game {
 	
 	
 	public boolean decideTitleForPic(String playerKey, int card, String title) {
+		if(!typeTitle) return false;
 		if(status != 1 || phase != 0 || !playerKey.equals(playersInOrder.get(whoseTurn))) {
 			return false;
 		}
@@ -58,10 +61,22 @@ public class GamePicsit extends Game {
 	}
 	
 	public boolean putAPicDown(String playerKey, int card) {
-		if (status != 1 || phase != 0 || playerKey.equals(playersInOrder.get(whoseTurn)) 
-				|| players.get(playersInOrder.get(whoseTurn)).getPhase() == 0) {
+		if (status != 1 || phase != 0) {
 			return false;
 		}
+		
+		// if a title has to be typed in, the player whose turn it is has to use
+		// the method decideTitleForPic()
+		if (typeTitle && playerKey.equals(playersInOrder.get(whoseTurn))) {
+			return false;
+		}
+		// if the player whose turn it is hasn't put down a card yet
+		// nobody else can put down a card
+		if (!playerKey.equals(playersInOrder.get(whoseTurn)) 
+				&& players.get(playersInOrder.get(whoseTurn)).getPhase() == 0) {
+			return false;
+		}
+		
 		if (players.get(playerKey).putAPicDown(card)) {
 			middle.put(card,playerKey);
 			if(allPlayersReadyWith(0)) {

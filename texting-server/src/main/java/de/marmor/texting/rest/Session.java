@@ -153,13 +153,13 @@ public class Session {
 	 */
 	@RequestMapping(value = "/game/newP", method = RequestMethod.GET)
 	public StringResponseEntity newGame(@RequestParam("nofCardsInPile") int nofCardsInPile,
-			@RequestParam("nofCardsOnHand") int nofCardsOnHand) {
+			@RequestParam("nofCardsOnHand") int nofCardsOnHand, @RequestParam("typeTitle") boolean typeTitle) {
 		String companionId = getCompanionId();
 		if (idleCompanions.containsKey(companionId)) {
 			LOG.info("Id is valid.");
 			String newGameId = UUID.randomUUID().toString();
 			GameSettingsPicsit newGameSettings = new GameSettingsPicsit(idleCompanions.get(companionId), companionId,
-					nofCardsInPile, nofCardsOnHand);
+					nofCardsInPile, nofCardsOnHand, typeTitle);
 			
 			games.put(newGameId, new GamePicsit(newGameSettings));
 			
@@ -321,7 +321,7 @@ public class Session {
 	 * @param card to be put into the middle
 	 * @return true if action was successful
 	 */
-	@RequestMapping(value = "/game/wofürwarnochmaldieserPfad?", method = RequestMethod.GET)
+	@RequestMapping(value = "/game/putPic/down", method = RequestMethod.GET)
 	public boolean putAPicDown(@RequestParam("card") int card) {
 		String companionId = getCompanionId();
 		String gameId = getGameId();
@@ -342,7 +342,7 @@ public class Session {
 	 * @param card to be put into the middle
 	 * @return true if action was successful
 	 */
-	@RequestMapping(value = "/game/wofürwarnochmaldieserPfad?", method = RequestMethod.GET)
+	@RequestMapping(value = "/game/putPic/title", method = RequestMethod.GET)
 	public boolean decideTitleForPic(@RequestParam("card") int card, @RequestParam("title") String title) {
 		String companionId = getCompanionId();
 		String gameId = getGameId();
@@ -367,7 +367,7 @@ public class Session {
 	 * @param card to be put into the middle
 	 * @return true if action was successful
 	 */
-	@RequestMapping(value = "/game/wofürwarnochmaldieserPfad?", method = RequestMethod.GET)
+	@RequestMapping(value = "/game/pick/Pic", method = RequestMethod.GET)
 	public boolean pickAPic(@RequestParam("card") int card) {
 		String companionId = getCompanionId();
 		String gameId = getGameId();
