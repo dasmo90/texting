@@ -16,6 +16,9 @@ public class Player {
 	private int phase = 0;
 	private boolean pickedCorrectly = false;
 	private int nofPicksForMe = 0;
+	private int latestPutDownCard = -1;
+	private int latestPickedCard = -1;
+	private int latestGainedScore = 0;
 	
 	public Player() {
 	}
@@ -70,6 +73,7 @@ public class Player {
 			return false;
 		}
 		cardsOnHand.remove(Integer.valueOf(card));
+		latestPutDownCard = card;
 		// if it's your turn, skip the pick phase
 		if(myTurn) {
 			phase = 2;
@@ -79,7 +83,7 @@ public class Player {
 		return true;
 	}
 	
-	public boolean pickAPic(Player pickedPlayer) {
+	public boolean pickAPic(Player pickedPlayer, int card) {
 		if (phase != 1) {
 			return false;
 		}
@@ -88,7 +92,24 @@ public class Player {
 			pickedCorrectly = true;
 		}
 		phase = 2;
+		latestPickedCard = card;
 		return true;
+	}
+	
+	public void setLatestGainedScore(int score) {
+		latestGainedScore = score;
+	}
+	
+	public int getLatestGainedScore() {
+		return latestGainedScore;
+	}
+	
+	public int getLatestPutDownCard() {
+		return latestPutDownCard;
+	}
+	
+	public int getLatestPickedCard() {
+		return latestPickedCard;
 	}
 
 	public boolean getMyTurn() {

@@ -2,11 +2,11 @@ package de.marmor.texting.model;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +22,7 @@ public class GamePicsit extends Game {
 	private List<String> playersInOrder = new LinkedList<>();
 	private String title = "";
 	private boolean typeTitle = false;
+	private Map<Integer,Card> lastRoundsMiddleCards = new HashMap<Integer,Card>();
 	
 	
 	public GamePicsit(GameSettingsPicsit settings) {
@@ -60,6 +61,8 @@ public class GamePicsit extends Game {
 		if(players.get(playerKey).putAPicDown(card)) {
 			LOG.info("Card has been put down.");
 			middle.put(card,playerKey);
+			lastRoundsMiddleCards.clear();
+			lastRoundsMiddleCards.put(card, new Card(card, whoseTurn, true));
 			this.title = title;
 			return true;
 		}
@@ -85,6 +88,15 @@ public class GamePicsit extends Game {
 		
 		if (players.get(playerKey).putAPicDown(card)) {
 			middle.put(card,playerKey);
+			
+			if(playerKey.equals(playersInOrder.get(whoseTurn))) {
+				lastRoundsMiddleCards.clear();
+				lastRoundsMiddleCards.put(card, new Card(card, whoseTurn, true));
+			} else {
+				int playerIndex = playersInOrder.indexOf(playerKey);
+				lastRoundsMiddleCards.put(card, new Card(card, playerIndex, false));
+			}
+			
 			if(allPlayersReadyWith(0)) {
 				phase = 1;
 			}
@@ -98,7 +110,9 @@ public class GamePicsit extends Game {
 		// Card must be in the middle, player can't pick himself, pick phase
 		if (middle.containsKey(card) && !middle.get(card).equals(playerKey) && phase == 1) {
 			Player pickedPlayer = players.get(middle.get(card));
-			if (players.get(playerKey).pickAPic(pickedPlayer)) {
+			if (players.get(playerKey).pickAPic(pickedPlayer, card)) {
+				int playerIndex = playersInOrder.indexOf(playerKey);
+				lastRoundsMiddleCards.get(card).addPlayerPick(playerIndex);
 				if (allPlayersReadyWith(1)) {
 					distributePoints();
 					prepareNextRound();
@@ -115,19 +129,26 @@ public class GamePicsit extends Game {
 		if (whoseTurnPlayer.collectedPicks() == 0 || whoseTurnPlayer.collectedPicks() == nofPlayers-1) {
 			for (String playerKey : players.keySet()) {
 				players.get(playerKey).addToScore(2);
+				players.get(playerKey).setLatestGainedScore(2);
 			}
 			whoseTurnPlayer.addToScore(-2);
+			whoseTurnPlayer.setLatestGainedScore(0);
 			
 		} else { // not everyone picked the right card
 			whoseTurnPlayer.addToScore(3);
+			whoseTurnPlayer.setLatestGainedScore(3);
 			
 			for (String playerKey : players.keySet()) {
+				int gain = 0;
 				Player p = players.get(playerKey);
 				if (!p.getMyTurn()) {
 					if (p.getPickedCorrectly()) {
 						p.addToScore(3);
+						gain += 3;
 					}
 					p.addToScore(p.collectedPicks());
+					gain += p.collectedPicks();
+					p.setLatestGainedScore(gain);
 				}
 			}
 		}
@@ -253,5 +274,22 @@ public class GamePicsit extends Game {
 	
 	public String getTitle() {
 		return title;
+	}
+	
+	public List<Card> getLastRoundsMiddleCards() {
+		List<Card> middleCards = new LinkedList<Card>();
+		
+		for(Integer key: lastRoundsMiddleCards.keySet()) {
+			middleCards.add(lastRoundsMiddleCards.get(key));
+		}
+		
+		Collections.sort(middleCards, new Comparator<Card>() {
+			@Override
+			public int compare(Card c1, Card c2) {
+				return c1.getCardIndex() - c2.getCardIndex();
+			}
+		});
+		
+		return middleCards;
 	}
 }
