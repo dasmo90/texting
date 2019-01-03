@@ -80,9 +80,9 @@ public class GameStatusPicsit extends GameStatus{
 		return cardsOnHand;
 	}
 	
-	public List<Integer> getPileOfCards() {
+	/*public List<Integer> getPileOfCards() {
 		return pileOfCards;
-	}
+	}*/
 	
 	public int getNofCardsLeft() {
 		return nofCardsLeft;
