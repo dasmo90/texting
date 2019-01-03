@@ -10,8 +10,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.marmor.texting.rest.GameStatusText;
-
 public class GamePicsit extends Game {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(GamePicsit.class);
@@ -225,22 +223,27 @@ public class GamePicsit extends Game {
 		return playersThatLeft;
 	}
 	
-	public Map<String,Integer> getScores() {
-		Map<String,Integer> scores = new HashMap<String,Integer>();
+	public List<Integer> getScores() {
+		List<Integer> scores = new LinkedList<Integer>();
 		
-		for(String key : players.keySet()) {
-			scores.put(key, players.get(key).getScore());
+		for(int i = 0; i < nofPlayers; i++) {
+			scores.add(players.get(playersInOrder.get(i)).getScore());
 		}
 		return scores;
 	}
 	
-	public Map<String,Integer> getMiddle() {
-		Map<String,Integer> mid = new HashMap<String,Integer>();
+	public List<Integer> getMiddle() {
 		
-		for (Integer key : middle.keySet()) {
-			mid.put(middle.get(key), key);
+		List<Integer> mid = new LinkedList<Integer>();
+		
+		if(phase == 0) {
+			return mid;
 		}
 		
+		for (Integer key : middle.keySet()) {
+			mid.add(key);
+		}
+		Collections.sort(mid);
 		return mid;
 	}
 	

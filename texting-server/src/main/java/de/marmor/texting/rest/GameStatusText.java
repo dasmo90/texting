@@ -2,17 +2,10 @@ package de.marmor.texting.rest;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.marmor.texting.model.GameText;
 import de.marmor.texting.model.StoryPiece;
 
 public class GameStatusText extends GameStatus{
-
-	private static final Logger LOG = LoggerFactory.getLogger(GameStatusText.class);
 
 	private String shownLetters;
 	private int currentRound;

@@ -1,10 +1,7 @@
 package de.marmor.texting.rest;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,14 +14,16 @@ public class GameStatusPicsit extends GameStatus{
 	private int myScore;
 	private int gamePhase;
 	private int myPhase;
-	private Map<String,Integer> scores = new HashMap<String,Integer>(); // empty if game hasn't started yet
-	private Map<String,Integer> middle = new HashMap<String,Integer>();
+	private List<Integer> scores = new LinkedList<Integer>(); // list of scores in order of players
+	private List<Integer> middle = new LinkedList<Integer>(); // list of cards in the middle, empty, if game in phase 0
 	private List<Integer> pileOfCards = new LinkedList<Integer>();
 	private int nofCardsLeft;
 	private String title;
+	private List<Integer> cardsOnHand = new LinkedList<Integer>(); // list of cards on players hand
 
 	public GameStatusPicsit() {
 		super();
+		LOG.info("GameStatusPicsit made.");
 	}
 	
 	public GameStatusPicsit(GamePicsit game, String currentPlayerId) {
@@ -44,6 +43,7 @@ public class GameStatusPicsit extends GameStatus{
 			myPhase = game.getCertainPlayer(currentPlayerId).getPhase();
 			scores = game.getScores();
 			middle = game.getMiddle();
+			cardsOnHand = game.getCertainPlayer(currentPlayerId).getCardsOnHand();
 
 		} else {
 			myScore = game.getCertainPlayer(currentPlayerId).getScore();
@@ -68,12 +68,16 @@ public class GameStatusPicsit extends GameStatus{
 		return myPhase;
 	}
 	
-	public Map<String,Integer> getScores() {
+	public List<Integer> getScores() {
 		return scores;
 	}
 	
-	public Map<String,Integer> getMiddle() {
+	public List<Integer> getMiddle() {
 		return middle;
+	}
+	
+	public List<Integer> getCardsOnHand() {
+		return cardsOnHand;
 	}
 	
 	public List<Integer> getPileOfCards() {

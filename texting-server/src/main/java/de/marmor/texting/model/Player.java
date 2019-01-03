@@ -6,8 +6,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.marmor.texting.rest.GameStatusText;
-
 public class Player {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(Player.class);
@@ -24,6 +22,10 @@ public class Player {
 	
 	public int getFirstCardOnHand() {
 		return cardsOnHand.get(0);
+	}
+	
+	public List<Integer> getCardsOnHand() {
+		return cardsOnHand;
 	}
 	
 	public void setPickedCorrectly(boolean c) {
