@@ -1,0 +1,51 @@
+@import "../../../colors.scss";
+
+.c-cards {
+
+  &__cards {
+    position: relative;
+
+    &.-max {
+      overflow: hidden;
+      width: 100%;
+    }
+  }
+
+  &__card {
+    display: inline-block;
+    width: 33%;
+    padding: 8px;
+    box-sizing: border-box;
+
+    img {
+      border: solid 3px white;
+      border-radius: 8px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    &.-max {
+      position: absolute;
+      width: 100%;
+      transform: translateX(0);
+
+      &.-left {
+        transform: translateX(-100%);
+      }
+
+      &.-right {
+        transform: translateX(100%);
+      }
+    }
+  }
+
+  .previous::after {
+    content: '\f053';
+    font-family: FontAwesome;
+  }
+
+  .next::after {
+    content: '\f054';
+    font-family: FontAwesome;
+  }
+}

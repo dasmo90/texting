@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/picsit-web/picsit-web.iml" filepath="$PROJECT_DIR$/picsit-web/picsit-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/texting.iml" filepath="$PROJECT_DIR$/texting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/texting-server/texting-server.iml" filepath="$PROJECT_DIR$/texting-server/texting-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/texting-web/texting-web.iml" filepath="$PROJECT_DIR$/texting-web/texting-web.iml" />
+    </modules>
+  </component>
+</project>
