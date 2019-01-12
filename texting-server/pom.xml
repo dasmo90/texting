@@ -33,8 +33,12 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>target/texting-web</directory>
+				<directory>target/picsit-web</directory>
 				<targetPath>static</targetPath>
+			</resource>
+			<resource>
+				<directory>../economyset</directory>
+				<targetPath>cards</targetPath>
 			</resource>
 		</resources>
 		<plugins>
@@ -57,11 +61,11 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>de.marmor</groupId>
-									<artifactId>texting-web</artifactId>
+									<artifactId>picsit-web</artifactId>
 									<version>${project.version}</version>
 									<type>zip</type>
 									<overWrite>true</overWrite>
-									<outputDirectory>${project.build.directory}/texting-web</outputDirectory>
+									<outputDirectory>${project.build.directory}/picsit-web</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

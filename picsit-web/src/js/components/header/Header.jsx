@@ -18,8 +18,8 @@ class Header extends Component {
             <Fragment>
                 <div className={"header"}>
                     <div className={"logo"}>Picsit</div>
-                    <div className={"score"}>{this.props.score ? "Deine Punktzahl: " + this.props.score : ''}</div>
-                    <i className={"fa fa-power-off"} onClick={this.onLogout.bind(this)}/>
+                    <div className={"score"}>{isNaN(this.props.score) ? '' : 'Deine Punktzahl: ' + this.props.score}</div>
+                    <i className={"fa fa-power-off clickable"} onClick={this.onLogout.bind(this)}/>
                 </div>
                 <div className={"notification"}>{this.props.notification}</div>
             </Fragment>
@@ -29,7 +29,7 @@ class Header extends Component {
 
 Header.propTypes = {
     notification: PropTypes.string.isRequired,
-    score: PropTypes.string,
+    score: PropTypes.number,
     onLogout: PropTypes.func.isRequired
 };
 

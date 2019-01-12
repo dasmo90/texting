@@ -161,6 +161,7 @@ public class GamePicsit extends Game {
 		whoseTurn = (whoseTurn+1)%nofPlayers;
 		players.get(playersInOrder.get(whoseTurn)).setMyTurn(true);
 		title = "";
+		middle.clear();
 		
 		for (int i = 0; i < nofPlayers; i++) {
 			Player p = players.get(playersInOrder.get(i));

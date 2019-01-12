@@ -16,8 +16,8 @@ import java.net.URL;
 public class Resources {
 
     private static File[] economySet() {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource("economyset");
+        ClassLoader loader = Resources.class.getClassLoader();
+        URL url = loader.getResource("cards");
         String path = url.getPath();
         return new File(path).listFiles();
     }

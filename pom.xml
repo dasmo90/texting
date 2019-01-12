@@ -16,6 +16,7 @@
 
 	<modules>
 		<module>texting-web</module>
+		<module>picsit-web</module>
 		<module>texting-server</module>
 	</modules>
 

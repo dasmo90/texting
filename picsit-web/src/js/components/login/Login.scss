@@ -5,20 +5,4 @@
     display: block;
     margin-bottom: 10px;
   }
-
-  input {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-color: $inputgray;
-    border: none;
-    border-radius: 8px;
-    box-shadow: none;
-    box-sizing: border-box;
-    color: $lightblue;
-    font-size: 14px;
-    outline: none;
-    padding: 10px 20px;
-    width: 100%;
-  }
 }

@@ -33,4 +33,16 @@ export default class Backend {
     static choosePicWithTitle(card, title) {
         return axios.get('/game/putPic/title', {params: {card, title}, withCredentials: true});
     }
+
+    static choosePic(card) {
+        return axios.get('/game/putPic/down', {params: {card}, withCredentials: true});
+    }
+
+    static pickPic(card) {
+        return axios.get('/game/pick/Pic', {params: {card}, withCredentials: true});
+    }
+
+    static leaveGame() {
+        return axios.get('/game/leave', {withCredentials: true});
+    }
 }

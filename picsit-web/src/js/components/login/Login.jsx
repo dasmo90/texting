@@ -21,7 +21,7 @@ class Login extends Component {
 
     onChangeHandler(evt) {
         this.name = evt.target.value;
-        if (this.name) {
+        if (this.name.trim()) {
             this.setState({disabled: false})
         } else {
             this.setState({disabled: true})

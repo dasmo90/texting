@@ -4,6 +4,7 @@ import Login from "./login/Login.jsx";
 import Cookie from "../Cookie";
 import Games from "./games/Games.jsx";
 import Game from "./game/Game.jsx";
+import Backend from "../Backend";
 
 const COOKIE_USER_KEY = 'TEXTING-COOKIE-COMPANION-ID';
 const COOKIE_GAME_KEY = 'TEXTING-COOKIE-GAME-ID';
@@ -17,7 +18,9 @@ class MainApp extends Component {
         if (userId) {
             if (gameId) {
                 this.state = {
-                    template: <Game onNotificationChange={(notification) => this.setState({notification})}/>,
+                    template: <Game onNotificationChange={(notification) => this.setState({notification})}
+                                    onScoreChange={(score) => this.setState({score})}
+                                    onGameEnd={() => this.onGameLeave()}/>,
                     notification: ''
                 }
             } else {
@@ -45,7 +48,9 @@ class MainApp extends Component {
     onGameSelect(gameId) {
         Cookie.set(COOKIE_GAME_KEY, gameId);
         this.setState({
-            template: <Game onNotificationChange={(notification) => this.setState({notification})}/>
+            template: <Game onNotificationChange={(notification) => this.setState({notification})}
+                            onScoreChange={(score) => this.setState({score})}
+                            onGameEnd={() => this.onGameLeave()}/>
         });
     }
 
@@ -54,13 +59,26 @@ class MainApp extends Component {
         Cookie.clear(COOKIE_GAME_KEY);
         this.setState({
             template: <Login onLogin={this.onLogin.bind(this)}/>,
-            notification: 'Gib deinen Namen ein'
+            notification: 'Gib deinen Namen ein',
+            score: undefined
+        });
+    }
+
+    onGameLeave() {
+        Backend.leaveGame().then(() => {
+            Cookie.clear(COOKIE_GAME_KEY);
+            this.setState({
+                template: <Games onSelect={this.onGameSelect.bind(this)}/>,
+                notification: 'Erstelle oder wähle ein Spiel',
+                score: undefined
+            });
         });
     }
 
     render() {
         return <Fragment>
-            <Header notification={this.state.notification} onLogout={this.onLogout.bind(this)}/>
+            <Header notification={this.state.notification} onLogout={this.onLogout.bind(this)}
+                    score={this.state.score}/>
             <div className={"content"}>{this.state.template}</div>
         </Fragment>
     }
