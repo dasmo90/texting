@@ -37,7 +37,7 @@
 				<targetPath>static</targetPath>
 			</resource>
 			<resource>
-				<directory>../economyset</directory>
+				<directory>../original</directory>
 				<targetPath>cards</targetPath>
 			</resource>
 		</resources>

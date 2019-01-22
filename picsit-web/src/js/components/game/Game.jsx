@@ -6,6 +6,7 @@ import Lobby from "../lobby/Lobby.jsx";
 import Cards from "../cards/Cards.jsx";
 import Middle from "../middle/Middle.jsx";
 import Scores from "../scores/Scores.jsx";
+import Cookie from "../../Cookie";
 
 class Game extends Component {
 
@@ -39,31 +40,57 @@ class Game extends Component {
                     this.props.onNotificationChange('Warte auf Start des Spiels ...');
                 }
             } else if (data.status === 1 && data.gamePhase === 0) {
-                const waitingForAll = data.myPhase !== 0 || data.yourTurn && !!data.title;
-                this.setState({
-                    template: <Cards onChange={() => {
-                        this.updateGameStatus()
-                    }} yourTurn={data.yourTurn} cardsOnHand={data.cardsOnHand} title={data.title}
-                                     waiting={waitingForAll}/>
-                });
-                if (waitingForAll) {
-                    this.props.onNotificationChange('Warte auf andere Spieler ...');
-                } else if (data.yourTurn) {
-                    this.props.onNotificationChange('Wähle eine Karte und einen Titel');
+                const latestTitle = Cookie.get('TEXTING-COOKIE-LATEST-TITLE');
+                if (latestTitle) {
+                    this.setState({
+                        template: <Middle onChange={() => {
+                            this.updateGameStatus()
+                        }} waiting={true} cardsInMiddle={data.latestMiddleSituation} title={latestTitle}
+                                          myCard={data.myLatestMiddleCard} myPickedCard={data.myLatestPickedCard}
+                                          players={data.playerNames} myPoints={data.myLatestGainedScore}
+                                          overview={true}/>
+                    });
+                    this.props.onNotificationChange('Übersicht - starte nächste Runde');
                 } else {
-                    if (data.title) {
-                        this.props.onNotificationChange('Wähle eine Karte');
+                    const waitingForAll = data.myPhase !== 0 || data.yourTurn && !!data.title;
+                    if (data.yourTurn && waitingForAll) {
+                        this.setState({
+                            template: <Middle onChange={() => {
+                                this.updateGameStatus()
+                            }} waiting={waitingForAll} cardsInMiddle={data.latestMiddleSituation} title={data.title}
+                                              myCard={data.myLatestMiddleCard} myPickedCard={data.myLatestPickedCard}
+                                              players={data.playerNames} myPoints={data.myLatestGainedScore}
+                                              overview={false}/>
+                        });
                     } else {
-                        this.props.onNotificationChange('Warte auf ' + data.playerNames[data.whosTurnIndex] + ' ...');
+                        this.setState({
+                            template: <Cards onChange={() => {
+                                this.updateGameStatus()
+                            }} yourTurn={data.yourTurn} cardsOnHand={data.cardsOnHand} title={data.title}
+                                             waiting={waitingForAll}/>
+                        });
+                    }
+                    if (waitingForAll) {
+                        this.props.onNotificationChange('Warte auf andere Spieler ...');
+                    } else if (data.yourTurn) {
+                        this.props.onNotificationChange('Wähle eine Karte und einen Titel');
+                    } else {
+                        if (data.title) {
+                            this.props.onNotificationChange('Wähle eine Karte');
+                        } else {
+                            this.props.onNotificationChange('Warte auf ' + data.playerNames[data.whosTurnIndex] + ' ...');
+                        }
                     }
                 }
             } else if (data.status === 1 && data.gamePhase === 1) {
+                Cookie.set('TEXTING-COOKIE-LATEST-TITLE', data.title);
                 const waiting = data.yourTurn || data.myPhase === 2;
                 this.setState({
                     template: <Middle onChange={() => {
                         this.updateGameStatus()
-                    }} waiting={waiting} cardsInMiddle={data.middle} title={data.title}
-                                      myCard={data.myLatestMiddleCard}/>
+                    }} waiting={waiting} cardsInMiddle={data.latestMiddleSituation} title={data.title}
+                                      myCard={data.myLatestMiddleCard} myPickedCard={data.myLatestPickedCard}
+                                      players={data.playerNames} myPoints={data.myLatestGainedScore} overview={false}/>
                 });
                 if (waiting) {
                     this.props.onNotificationChange('Warte auf andere Spieler ...');
@@ -75,6 +102,7 @@ class Game extends Component {
                     template: <Scores onLeaveGame={this.props.onGameEnd} players={data.playerNames}
                                       scores={data.scores}/>
                 });
+                this.props.onNotificationChange('Spielende - Punkteübersicht');
             } else {
                 this.setState({template: <div>Loading ...</div>});
             }

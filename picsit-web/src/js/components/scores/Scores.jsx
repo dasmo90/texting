@@ -17,7 +17,7 @@ class Scores extends Component {
         return (
             <Fragment>
                 <div className={'margin-bottom-20'}>Spieler</div>
-                <ul className={'list stretch'}>{players}</ul>
+                <ul className={'list stretch margin-bottom-20'}>{players}</ul>
                 <div className={'btn'} onClick={this.props.onLeaveGame}>Spiel verlassen</div>
             </Fragment>
         );

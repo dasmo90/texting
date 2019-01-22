@@ -23,7 +23,7 @@ class Lobby extends Component {
         return (
             <Fragment>
                 <div className={'margin-bottom-20'}>Spieler</div>
-                <ul className={'list stretch'}>{players}</ul>
+                <ul className={'list stretch margin-bottom-20'}>{players}</ul>
                 {this.props.myGame ?
                     <div className={btnClassName} onClick={this.startGame.bind(this)}>Starte Spiel</div> : ''}
             </Fragment>

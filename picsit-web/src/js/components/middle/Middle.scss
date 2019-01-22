@@ -14,13 +14,36 @@
   }
 
   &__card {
-    display: inline-block;
-    width: 33%;
-    padding: 8px;
     box-sizing: border-box;
+    display: inline-block;
+    padding: 8px;
+    position: relative;
+    width: 33%;
 
     &.selected img {
       border-color: white;
+    }
+
+    &.picked img {
+      border-color: white;
+    }
+
+    &.incorrect img {
+      opacity: 0.5;
+    }
+
+    &.picked.incorrect img {
+      border-color: $red;
+      opacity: 1;
+    }
+
+    &.correct img {
+      border-color: $green;
+    }
+
+    &.own img {
+      filter: grayscale(100%);
+      opacity: 1;
     }
 
     img {
@@ -30,8 +53,27 @@
       width: 100%;
     }
 
+    .count {
+      background-color: black;
+      border: solid 3px $lightblue;
+      border-radius: 50%;
+      bottom: 18px;
+      color: $lightblue;
+      font-weight: bold;
+      line-height: 20px;
+      position: absolute;
+      right: 15px;
+      text-align: center;
+      width: 20px;
+    }
+
     &.-max {
       width: 100%;
+
+      img {
+        border-radius: 20px;
+        border-width: 5px;
+      }
     }
   }
 
@@ -50,5 +92,17 @@
   .next::after {
     content: '\f054';
     font-family: FontAwesome;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+
+  .details {
+    margin: 0 8px;
+
+    .owner {
+      text-align: center;
+    }
   }
 }

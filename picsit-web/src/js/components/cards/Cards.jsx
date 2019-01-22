@@ -77,7 +77,7 @@ class Cards extends Component {
         const btnCheckCardAndTitle = 'btn btn-check' + (!this.state.textEntered || this.state.selectedIndex === -1 ? ' disabled' : '');
         const btnCheckCard = 'btn btn-check' + (this.state.selectedIndex === -1 ? ' disabled' : '');
         return <div className={'c-cards'}>
-            {this.props.title ? <div className={'margin-bottom-20'}>{this.props.title}</div> : ''}
+            {this.props.title ? <div className={'title margin-bottom-20'}>Titel: {this.props.title}</div> : ''}
             <div className={cardsContainer}>{cards}</div>
             {this.props.yourTurn && !this.props.title ?
                 <Fragment>
